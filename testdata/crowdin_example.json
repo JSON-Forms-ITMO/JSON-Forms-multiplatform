@@ -1,0 +1,98 @@
+{
+  "api_token": "exercitation magna qui cupidatat anim",
+  "api_token_env": "aliquip",
+  "append_commit_message": true,
+  "base_path": "proident",
+  "base_path_env": "dolore",
+  "base_url": "https://LrGXuQpizpgcBHbBcPUKdPilicpK.urblrarSEwPD,VJvqqgjnVReaneqy-tuWkSEtX2bgx",
+  "commit_message": "ex dolore",
+  "export_languages": [
+    "Ut ad",
+    "enim",
+    "nisi incididunt",
+    "labore aute cillum tempor mollit",
+    "amet enim"
+  ],
+  "files": [
+    {
+      "content_segmentation": 0.05965583989411638,
+      "dest": "cillum non magna consequat",
+      "dolore__": -47202666.477991536,
+      "escape_quotes": 2.0981967273161137,
+      "escape_special_characters": 0.10111064863039276,
+      "eu_8e_": true,
+      "excluded_target_languages": [
+        "reprehenderit",
+        "est"
+      ],
+      "export_only_approved": true,
+      "first_line_contains_header": true,
+      "ignore": [
+        "Duis sunt",
+        "dolor aute cillum",
+        "Excepteur sunt cillum",
+        "sint nostrud"
+      ],
+      "labels": [
+        "minim",
+        "irure mollit",
+        "sed sit proident cillum",
+        "sint dolor consectetur deserunt exercitation"
+      ],
+      "languages_mapping": {
+        "android_code": {
+          "cupidatat17": "amet laboris sunt velit"
+        },
+        "dolor_": -96060562,
+        "two_letters_code": {
+          "elit_51b": "deserunt occaecat",
+          "in90b": "in",
+          "laborum_667": "pariatur",
+          "occaecat_04_": "dolore"
+        }
+      },
+      "pariatur_a9": -58340446.02889914,
+      "scheme": "reprehenderit",
+      "skip_untranslated_files": true,
+      "skip_untranslated_strings": true,
+      "source": "ea",
+      "sunt_3d_": -67465250,
+      "translatable_elements": [
+        "enim cillum",
+        "anim qui et deserunt fugiat",
+        "dolor",
+        "pariatur",
+        "eiusmod velit irure"
+      ],
+      "translate_attributes": 0.8598838979441693,
+      "translate_content": 0.22305522198033956,
+      "translation": "aliqua dolor cupidatat incididunt id",
+      "translation_replace": {
+        "Lorem_29": "esse"
+      },
+      "type": "fugiat labore cillum anim deserunt",
+      "update_option": "update_without_changes"
+    },
+    {
+      "content_segmentation": 0.7033257595851887,
+      "escape_quotes": 2.266258069470309,
+      "labels": [
+        "aliqua",
+        "ad exercitation",
+        "dolor occaecat",
+        "ullamco proident sunt",
+        "ut et"
+      ],
+      "translation_replace": {
+        "Lorem_5": "reprehenderit Ut"
+      },
+      "type": "anim labore elit et",
+      "update_option": "update_without_changes"
+    }
+  ],
+  "officiaf2d": true,
+  "preserve_hierarchy": true,
+  "project_id_env": "anim ex cupidatat eu",
+  "quis_91": 61352854,
+  "veniam5b0": 86723275
+}
