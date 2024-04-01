@@ -1,0 +1,289 @@
+{
+  "update_configs": [
+    {
+      "default_assignees": [
+        "github_username_1",
+        "github_username_1"
+      ],
+      "directory": "/app",
+      "package_manager": "ruby:bundler",
+      "update_schedule": "live"
+    },
+    {
+      "allowed_updates": [
+        {
+          "eab": -93983257,
+          "Lorem_e97": false,
+          "nisibe": 50428424
+        },
+        {
+          "match": {
+            "dependency_name": "react*",
+            "dependency_type": "indirect",
+            "update_type": "security"
+          }
+        },
+        {
+          "laborum6": 82976683,
+          "match": {
+            "aute_6": "non consectetur",
+            "culpa958": 94595357.35689881,
+            "eu9": true,
+            "laborumb": -31284179.686936557
+          }
+        }
+      ],
+      "automerged_updates": [
+        {
+          "eiusmod_d": 53052765.7157636,
+          "match": {
+            "aute_8f1": "minim id",
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "ipsumaf5": "laborum nostrud anim dolore",
+            "update_type": "semver:patch"
+          },
+          "sed0c0": "consectetur in commodo"
+        },
+        {
+          "ipsumfc": 46408168,
+          "laboris_7": false,
+          "match": {
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "ea_f4": true,
+            "pariatur_54": 32003737,
+            "update_type": "semver:patch"
+          },
+          "nisic_": false,
+          "voluptate_f0": "tempor labore eiusmod"
+        }
+      ],
+      "commit_message": {
+        "include_scope": false,
+        "prefix": "chore",
+        "prefix_development": "fix"
+      },
+      "default_assignees": [
+        "github_username_1",
+        "github_username_1",
+        "github_username_1"
+      ],
+      "default_labels": [
+        "label-name"
+      ],
+      "default_milestone": -56203594,
+      "default_reviewers": [
+        "github-username",
+        "github-username",
+        "github-username",
+        "github-username"
+      ],
+      "directory": "/app",
+      "ignored_updates": [
+        {
+          "euf": 44924152,
+          "ipsum_9e_": true,
+          "match": {
+            "dependency_name": "aws*",
+            "version_requirement": "4.x"
+          },
+          "occaecat1fc": -10402340,
+          "quis3a4": -34806542
+        },
+        {
+          "eiusmode1": -92953987.85189489,
+          "match": {
+            "dependency_name": "aws*",
+            "ea26": "in proident deserunt dolore",
+            "version_requirement": "4.x"
+          }
+        },
+        {
+          "aliqua3": -69511498,
+          "amet_4c": "laboris",
+          "cupidatat_b": -71599019,
+          "irure2": 17505069,
+          "match": {
+            "dependency_name": "aws*",
+            "exercitation707": -93752560.74049674,
+            "iruree8": 72275641.40440184,
+            "ut_0": -6375873.065113619
+          },
+          "reprehenderit_6": true
+        },
+        {
+          "in_e": true,
+          "match": {
+            "sint0": -75794578.71067753
+          },
+          "proidenta": -34322271
+        }
+      ],
+      "package_manager": "ruby:bundler",
+      "target_branch": "laborum cupidatat Lorem non",
+      "update_schedule": "live",
+      "version_requirement_updates": "widen_ranges"
+    },
+    {
+      "directory": "/app",
+      "package_manager": "ruby:bundler",
+      "update_schedule": "live"
+    },
+    {
+      "automerged_updates": [
+        {
+          "match": {
+            "ade": "ut",
+            "et_b4a": 89613143.50661108,
+            "id_3": "nisi et",
+            "veniam_a8": 72385390.00802699
+          }
+        },
+        {
+          "match": {
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "update_type": "semver:patch"
+          },
+          "ut_c": "dolore laboris fugiat"
+        },
+        {
+          "eu_f": -6488651,
+          "veniamac1": 72976109
+        },
+        {
+          "match": {
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "update_type": "semver:patch"
+          },
+          "nisi209": -85073180.11362894
+        }
+      ],
+      "commit_message": {
+        "et_cec": false,
+        "include_scope": true,
+        "prefix_development": "fix"
+      },
+      "default_assignees": [
+        "github_username_1",
+        "github_username_1"
+      ],
+      "default_labels": [
+        "label-name"
+      ],
+      "default_milestone": -83073789,
+      "directory": "/app",
+      "ignored_updates": [
+        {
+          "eub7": 49640377.501274645,
+          "Excepteur_c0": false,
+          "laboris_6b": -74232745,
+          "match": {
+            "dependency_name": "aws*",
+            "version_requirement": "4.x"
+          }
+        }
+      ],
+      "package_manager": "ruby:bundler",
+      "target_branch": "non adipisicing ex",
+      "update_schedule": "live",
+      "version_requirement_updates": "widen_ranges"
+    },
+    {
+      "allowed_updates": [
+        {
+          "laborum_fda": 45768472.579487145,
+          "match": {
+            "dependency_name": "react*",
+            "dependency_type": "indirect",
+            "Duis41": true,
+            "update_type": "security"
+          }
+        }
+      ],
+      "automerged_updates": [
+        {
+          "match": {
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "update_type": "semver:patch"
+          },
+          "nostrud_3b2": 20625364,
+          "officia__ae": true
+        },
+        {
+          "culpa_b4c": 8151669.998485208,
+          "dolorc6": false,
+          "match": {
+            "dependency_name": "aws*",
+            "dependency_type": "production*",
+            "update_type": "semver:patch"
+          },
+          "quis_8": "aute in aliqua ut officia"
+        }
+      ],
+      "default_assignees": [
+        "github_username_1",
+        "github_username_1",
+        "github_username_1",
+        "github_username_1"
+      ],
+      "default_labels": [
+        "label-name",
+        "label-name",
+        "label-name",
+        "label-name"
+      ],
+      "default_milestone": -44910593,
+      "default_reviewers": [
+        "github-username",
+        "github-username"
+      ],
+      "directory": "/app",
+      "ignored_updates": [
+        {
+          "adipisicing_711": -5491637,
+          "inb": false,
+          "match": {
+            "dependency_name": "aws*",
+            "euf": "amet ullamco in",
+            "version_requirement": "4.x"
+          }
+        },
+        {
+          "dolore_092": false,
+          "eiusmod_ed": -65726024,
+          "match": {
+            "ad_55": -10448791.780142859,
+            "cillum338": 75394258,
+            "dependency_name": "aws*",
+            "labore203": -92824504.96151459,
+            "sit0cc": 83071510,
+            "version_requirement": "4.x"
+          }
+        },
+        {
+          "aliquipea": 52031107.84698349,
+          "ipsum8b_": 78735657.55003428
+        },
+        {
+          "cupidatatc14": "est",
+          "elita3": false,
+          "match": {
+            "eiusmod41": -12674132,
+            "magna_e7b": "aute ea cillum consequat",
+            "ullamco_927": true,
+            "velit8": "Lorem irure nulla sed esse"
+          },
+          "pariaturb1": 98976177
+        }
+      ],
+      "package_manager": "ruby:bundler",
+      "target_branch": "elit quis ad",
+      "update_schedule": "live"
+    }
+  ],
+  "version": 1
+}
