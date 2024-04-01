@@ -1,0 +1,70 @@
+{
+  "base": "minim et qui Duis",
+  "clouds": {
+    "all": 28571913.10881416
+  },
+  "cod": -23258615,
+  "coord": {
+    "lat": 14194231.155538365,
+    "lon": -54732251.43637488
+  },
+  "dt": -27215885.442993045,
+  "id": -72688541,
+  "main": {
+    "feels_like": 29398328.40063195,
+    "grnd_level": -29041531.63889782,
+    "humidity": -89692.51620872319,
+    "pressure": -43732338.10295623,
+    "sea_level": 55732568.68677759,
+    "temp": -42981880.77510559,
+    "temp_max": 44284003.08135122,
+    "temp_min": 38870821.239637285
+  },
+  "name": "est Lorem eu velit",
+  "sys": {
+    "country": "ex",
+    "id": 12378060,
+    "message": 36724670.298295856,
+    "sunrise": 27811160,
+    "sunset": -71290361,
+    "type": 91806414
+  },
+  "timezone": -19536542,
+  "visibility": 7017184,
+  "weather": [
+    {
+      "description": "in sed velit irure",
+      "icon": "anim aute",
+      "id": 37957911,
+      "main": "velit eiusmod dolore"
+    },
+    {
+      "description": "id aliqua enim Duis officia",
+      "icon": "in in",
+      "id": 14285564,
+      "main": "nisi cupidatat minim eiusmod amet"
+    },
+    {
+      "description": "laboris proident esse",
+      "icon": "dolor consequat sint",
+      "id": -13813848,
+      "main": "laborum sed"
+    },
+    {
+      "description": "dolore labore ad sunt",
+      "icon": "dolore in sunt quis dolore",
+      "id": 24150053,
+      "main": "labore pariatur aliqua"
+    },
+    {
+      "description": "dolor est non",
+      "icon": "nostrud",
+      "id": 46940216,
+      "main": "deserunt"
+    }
+  ],
+  "wind": {
+    "deg": 20165767.499825075,
+    "speed": -83514307.64724144
+  }
+}
