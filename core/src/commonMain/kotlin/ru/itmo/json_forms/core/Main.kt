@@ -6,15 +6,16 @@ import ru.itmo.json_forms.core.schema.*
 fun main() {
     val json = FileUtils.readFile("/Users/vfeofilaktov/labs/json-forms-main/testdata/aiproj-1.2.json")
     val obj = SchemaParser.parse(json)
-    print(dump(obj))
+    val schemaParser = JsonSchemaParser(obj)
+    print(schemaParser.dump(obj))
 }
 
-private fun dump(schema: JsonObject): String = buildString {
-    appendLine("Title: ${schema.title}")
-    appendLine("Description: ${schema.description}")
+private fun JsonSchemaParser.dump(schema: JsonObject): String = buildString {
+    appendLine("Title: ${getPropertyTitle(schema)}")
+    appendLine("Description: ${getPropertyDescription(schema)}")
 
-    schema.properties.forEach { (name, obj) ->
-        appendLine("$name: ${obj.propertyType}")
+    getProperties(schema).forEach { (name, obj) ->
+        appendLine("$name: ${getPropertyType(obj)}")
         appendWithIndent(dump(obj))
     }
 }
