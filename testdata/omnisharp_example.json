@@ -1,0 +1,112 @@
+{
+  "cake": {
+    "bakeryPath": "eu",
+    "enabled": false
+  },
+  "FileOptions": {
+    "consequat_83b": 66488032.34809008,
+    "ExcludeSearchPatterns": [
+      "qui mollit"
+    ],
+    "labore4": "reprehenderit minim",
+    "nisi6": "sint laboris occaecat do",
+    "proidentda": 17346655.919228107,
+    "SystemExcludeSearchPatterns": [
+      "commodo do non dolor esse",
+      "minim nostrud nisi culpa occaecat"
+    ]
+  },
+  "FormattingOptions": {
+    "EnableEditorConfigSupport": false,
+    "IndentBlock": true,
+    "IndentBraces": false,
+    "IndentSwitchCaseSection": false,
+    "IndentSwitchCaseSectionWhenBlock": true,
+    "IndentSwitchSection": false,
+    "LabelPositioning": "ut sunt velit consectetur",
+    "NewLine": "cupidatat voluptate in",
+    "NewLineForCatch": false,
+    "NewLineForClausesInQuery": false,
+    "NewLineForElse": true,
+    "NewLineForMembersInAnonymousTypes": false,
+    "NewLineForMembersInObjectInit": false,
+    "NewLinesForBracesInAccessors": true,
+    "NewLinesForBracesInAnonymousMethods": false,
+    "NewLinesForBracesInControlBlocks": false,
+    "NewLinesForBracesInLambdaExpressionBody": false,
+    "NewLinesForBracesInObjectCollectionArrayInitializers": true,
+    "NewLinesForBracesInProperties": true,
+    "NewLinesForBracesInTypes": true,
+    "SpaceAfterCast": true,
+    "SpaceAfterColonInBaseTypeDeclaration": false,
+    "SpaceAfterComma": false,
+    "SpaceAfterControlFlowStatementKeyword": true,
+    "SpaceAfterDot": true,
+    "SpaceAfterMethodCallName": true,
+    "SpaceAfterSemicolonsInForStatement": false,
+    "SpaceBeforeColonInBaseTypeDeclaration": true,
+    "SpaceBeforeDot": false,
+    "SpaceBeforeOpenSquareBracket": false,
+    "SpaceBeforeSemicolonsInForStatement": true,
+    "SpaceBetweenEmptyMethodCallParentheses": true,
+    "SpaceBetweenEmptySquareBrackets": true,
+    "SpacesIgnoreAroundVariableDeclaration": true,
+    "SpaceWithinExpressionParentheses": true,
+    "SpaceWithinMethodDeclarationParenthesis": true,
+    "SpaceWithinOtherParentheses": false,
+    "SpaceWithinSquareBrackets": true,
+    "SpacingAfterMethodDeclarationName": false,
+    "TabSize": -32527517,
+    "UseTabs": true,
+    "WrappingKeepStatementsOnSingleLine": true,
+    "WrappingPreserveSingleLine": false
+  },
+  "ImplementTypeOptions": {
+    "InsertionBehavior": "AtTheEnd"
+  },
+  "msbuild": {
+    "aliqua218": 43747336.27630803,
+    "consectetur_6f": "minim",
+    "CscToolExe": "reprehenderit",
+    "dolor_4a": false,
+    "dolore2": "in cillum sed",
+    "EnablePackageAutoRestore": false,
+    "esse34": "in nostrud",
+    "est526": false,
+    "eu_14": -11851891.29833895,
+    "inb": -57891219.32875039,
+    "minim_4": -34518044,
+    "MSBuildExtensionsPath": "veniam do nulla",
+    "officia_5": "veniam eiusmod Ut magna",
+    "quia2": 36596786,
+    "quis24": true,
+    "sunt_828": 58556020.8144218,
+    "tempor_5": 94553776.95151931
+  },
+  "Plugins": {
+    "et3": "adipisicing non",
+    "LocationPaths": [
+      "anim irure"
+    ]
+  },
+  "RenameOptions": {
+    "laborum_7": -26737230.722970054,
+    "nostrud_0a5": -16867232,
+    "RenameInComments": false
+  },
+  "RoslynExtensionsOptions": {
+    "DocumentAnalysisTimeoutMs": -1823754,
+    "EnableDecompilationSupport": false,
+    "laboris5a": 75700006,
+    "LocationPaths": [
+      "laboris dolore amet ut cillum"
+    ]
+  },
+  "script": {
+    "defaultTargetFramework": "netcoreapp1.1",
+    "dolordf3": -28785569,
+    "enabled": false,
+    "enableScriptNuGetReferences": true,
+    "rspFilePath": "eiusmod Duis"
+  }
+}
