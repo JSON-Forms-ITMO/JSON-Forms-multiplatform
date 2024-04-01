@@ -1,0 +1,61 @@
+{
+  "annotations": {
+    "dolore5": "irure quis aliquip labore",
+    "sit_1d": "tempor consequat",
+    "ut_54f": "ipsum enim",
+    "veniam_1": "culpa enim"
+  },
+  "apiVersion": "v2",
+  "appVersion": "dolor aliqua dolore veniam",
+  "dependencies": [
+    {
+      "name": "tempor sit",
+      "tags": [
+        "do aliqua sed laboris eu",
+        "mollit laboris aute"
+      ]
+    },
+    {
+      "condition": "exercitation consequat dolore eiusmod cupidatat",
+      "name": "non",
+      "tags": [
+        "sunt incididunt ex occaecat",
+        "nostrud esse veniam ex",
+        "proident ex"
+      ]
+    },
+    {
+      "condition": "in fugiat ex sed dolore",
+      "name": "minim"
+    },
+    {
+      "alias": "nisi",
+      "import-values": [
+        "nostrud sunt ullamco in aute",
+        {
+          "child": "ut dolor et",
+          "parent": "dolore aliquip cupidatat eiusmod fugiat"
+        },
+        "sunt Lorem dolore",
+        "enim adipisicing non"
+      ],
+      "name": "tempor do labore id",
+      "version": "culpa"
+    }
+  ],
+  "deprecated": true,
+  "description": "nostrud ex nisi elit voluptate",
+  "home": "https://XmIiLmwIuopRDAyCWEForfjAYpQ.trqmNpl9hN9H1M5bcvOJtoi19pO4jntF7TfvkA1dyCGhpWj,vEOeYI55HrzAHN",
+  "keywords": [
+    "ut voluptate ipsum in enim",
+    "irure sunt"
+  ],
+  "kubeVersion": "eiusmod labore",
+  "name": "sint commodo eu ea",
+  "sources": [
+    "https://xFn.cwxg9S0vEtbG-grkqnyF",
+    "https://mAUoLwAjiLoNJMAAQOZJek.pmehWQcoeNzJt8S",
+    "https://NnfvzdLfJRvkWgUAt.mkoWgrHRejh5weBpN-uH0BVDIxA1oTxdbRIctx,xtDCZIhgaZGu0AkS-9pcZbJDCCI8NjzRg,uJB1g+"
+  ],
+  "version": "ullamco fugiat et proident"
+}
