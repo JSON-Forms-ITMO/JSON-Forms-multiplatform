@@ -1,0 +1,12 @@
+{
+  "ProjectName": "project-name",
+  "ProgrammingLanguage": "Java",
+  "ScanModules": [],
+  "DotNetSettings": {
+    "CustomParameters": "js-params",
+    "DownloadDependencies": true
+  },
+  "JavaSettings": {
+    "DownloadDependencies": true
+  }
+}
