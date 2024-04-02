@@ -4,14 +4,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 
 class Schema(rawSchema: JsonObject) {
-    val root: DataType
-
-    init {
-        root = parseDataType(rawSchema)
-    }
+    val root: DataType = parseDataType(rawSchema)
 
     override fun toString(): String {
-        return root.toString()
+        return visit(0, root)
     }
 }
 
@@ -39,4 +35,16 @@ private fun parseObjectType(obj: JsonObject): ObjectType {
         it.value.jsonObject.let { value -> properties[it.key] = parseDataType(value) }
     }
     return ObjectType(properties)
+}
+
+private fun visit(depth: Int, type: DataType): String {
+    fun indent(str: String) = str.prependIndent("  ".repeat(depth))
+    return when(type) {
+        is BasicType -> indent(type.toString())
+        is ObjectType -> type.properties.toList().joinToString("\n") {
+            indent(it.first) + ":\n" + visit(depth + 1, it.second)
+        }
+        is ArrayType -> indent("Array<${visit(0, type.items)}>")
+        else -> ""
+    }
 }
