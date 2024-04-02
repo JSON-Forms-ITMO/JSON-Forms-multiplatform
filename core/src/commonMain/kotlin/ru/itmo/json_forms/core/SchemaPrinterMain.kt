@@ -4,7 +4,9 @@ import kotlinx.serialization.json.JsonObject
 import ru.itmo.json_forms.core.schema.*
 
 fun main() {
-    val json = FileUtils.readFile("/Users/vfeofilaktov/labs/json-forms-main/testdata/aiproj-1.2.json")
+    val repoDir = FileUtils.cwd().removeSuffix("/core")
+    val jsonPath = "$repoDir/testdata/aiproj-1.2.json"
+    val json = FileUtils.readFile(jsonPath)
     val obj = SchemaParser.parse(json)
     val schemaParser = JsonSchemaParser(obj)
     print(schemaParser.dump(obj))
