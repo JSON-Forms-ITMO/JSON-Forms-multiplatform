@@ -54,8 +54,8 @@ private fun parseDataType(obj: JsonObject): DataType {
         else -> fallback()
     }
     return type
-        .withTitle(obj["title"]?.toString())
-        .withDescription(obj["description"]?.toString())
+        .withTitle(obj["title"]?.jsonPrimitive?.content)
+        .withDescription(obj["description"]?.jsonPrimitive?.content)
         .withDefaultValue(obj["default"]?.toString())
 }
 
@@ -94,10 +94,10 @@ private fun visit(depth: Int, type: DataType): String {
     fun indent(str: String) = str.prependIndent("  ".repeat(depth))
     var res = ""
     type.title?.let {
-        res += indent("title = $it") + "\n"
+        res += indent("title = \"$it\"") + "\n"
     }
     type.description?.let {
-        res += indent("description = $it") + "\n"
+        res += indent("description = \"$it\"") + "\n"
     }
     when(type) {
         is BasicType -> res += indent("type = $type") + "\n"
