@@ -41,7 +41,7 @@ private fun parseDataType(obj: JsonObject): DataType {
         is JsonArray -> {
             val variantTypes = t.map { parsePrimitive(it.jsonPrimitive) }
             if (variantTypes.size == 2 && variantTypes.contains(NullType())) {
-                var someType = variantTypes.find { it != NullType() }!!
+                val someType = variantTypes.find { it != NullType() }!!
                 OptionalType(someType)
             } else {
                 VariantType(variantTypes)
@@ -100,10 +100,11 @@ private fun visit(depth: Int, type: DataType): String {
                 res += indent("<no properties>")
             } else {
                 res += type.requiredProperties.toList().joinToString("\n") {
-                    indent(it.first) + ": <required>\n" + visit(depth + 1, it.second).removeSuffix("\n")
+                    indent(it.first) + ": <required>\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
                 }
+                res += "\n"
                 res += type.optionalProperties.toList().joinToString("\n") {
-                    indent(it.first) + ":\n" + visit(depth + 1, it.second).removeSuffix("\n")
+                    indent(it.first) + ":\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
                 }
             }
         }
@@ -111,14 +112,16 @@ private fun visit(depth: Int, type: DataType): String {
             res += indent("type = $type[")
             res += "\n"
             res += type.prefixItems.toList().joinToString("\n") {
-                visit(depth + 1, it).removeSuffix("\n")
+                visit(depth + 1, it).trimEnd('\n', ' ')
             }
-            res += visit(depth + 1, type.items) + "..."
+            res += visit(depth + 1, type.items).trimEnd('\n', ' ') + "..."
             res += indent("\n]")
         }
     }
     type.defaultValue?.let {
         res += indent("default = $it")
     }
+    res.trimEnd('\n', ' ')
+    res += "\n"
     return res
 }
