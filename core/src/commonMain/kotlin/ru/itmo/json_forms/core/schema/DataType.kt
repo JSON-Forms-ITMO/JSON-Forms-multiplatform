@@ -1,7 +1,5 @@
 package ru.itmo.json_forms.core.schema
 
-import kotlinx.serialization.Required
-
 abstract class DataType {
     var title: String? = null
     var description: String? = null
@@ -61,4 +59,3 @@ data class ObjectType(val properties: Map<String, DataType>, val required: Set<S
 data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : DataType() {
     override fun toString() = this::class.simpleName!!
 }
-
