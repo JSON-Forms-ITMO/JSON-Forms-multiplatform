@@ -1,5 +1,7 @@
 package ru.itmo.json_forms.core.schema
 
+import kotlinx.serialization.Required
+
 abstract class DataType {
     var title: String? = null
     var description: String? = null
@@ -51,7 +53,9 @@ data class EnumType(val values: List<String>) : BasicType() {
     override fun toString() = super.toString() + "[ " + values.joinToString(" | ") + " ]"
 }
 
-data class ObjectType(val properties: Map<String, DataType>) : DataType() {
+data class ObjectType(val properties: Map<String, DataType>, val required: Set<String>) : DataType() {
+    val optionalProperties = properties.filterNot { required.contains(it.key) }
+    val requiredProperties = properties.filter { required.contains(it.key) }
     override fun toString() = this::class.simpleName!!
 }
 data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : DataType() {

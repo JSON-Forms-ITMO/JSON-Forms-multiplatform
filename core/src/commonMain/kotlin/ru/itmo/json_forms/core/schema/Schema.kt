@@ -61,7 +61,7 @@ private fun parsePrimitive(prim: JsonPrimitive): DataType {
         "integer" -> IntegerType()
         "boolean" -> BooleanType()
         "null" -> NullType()
-        "object" -> ObjectType(emptyMap())
+        "object" -> ObjectType(emptyMap(), emptySet())
         else -> UnknownType()
     }
 }
@@ -71,7 +71,8 @@ private fun parseObjectType(obj: JsonObject): ObjectType {
     obj["properties"]?.jsonObject?.entries?.forEach {
         it.value.jsonObject.let { value -> properties[it.key] = parseDataType(value) }
     }
-    return ObjectType(properties)
+    val required = obj["required"]?.jsonArray?.map { it.jsonPrimitive.content }?.toSet() ?: emptySet()
+    return ObjectType(properties, required)
 }
 
 private fun parseArrayType(obj: JsonObject): ArrayType {
@@ -95,10 +96,13 @@ private fun visit(depth: Int, type: DataType): String {
     when(type) {
         is BasicType -> res += indent("type = $type") + "\n"
         is ObjectType -> {
-            res += if (type.properties.isEmpty()) {
-                indent("<no properties>")
+            if (type.properties.isEmpty()) {
+                res += indent("<no properties>")
             } else {
-                type.properties.toList().joinToString("\n") {
+                res += type.requiredProperties.toList().joinToString("\n") {
+                    indent(it.first) + ": <required>\n" + visit(depth + 1, it.second).removeSuffix("\n")
+                }
+                res += type.optionalProperties.toList().joinToString("\n") {
                     indent(it.first) + ":\n" + visit(depth + 1, it.second).removeSuffix("\n")
                 }
             }
