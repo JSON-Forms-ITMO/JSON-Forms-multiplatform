@@ -8,14 +8,16 @@ class IrBuilder(
     private val schema: Schema
 ) {
     fun build(json: String) {
+        // Do we take here initial data for the form?
         val parsed = Json.decodeFromString<JsonObject>(json)
 
-
+        val nodes = schema.root.toNode()
+        println(nodes)
     }
 
-    private fun match(schemaNode: DataType, jsonNode: JsonObject, propertyName: String = "root") : IrNode<DataType> {
-        return when (schemaNode) {
-
-        }
+    private fun match(schemaNode: DataType, jsonNode: JsonObject, propertyName: String = "root") {
+//        return when (schemaNode) {
+//            is BasicType -> {}
+//        }
     }
 }

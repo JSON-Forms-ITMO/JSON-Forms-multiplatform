@@ -18,8 +18,13 @@ class ObjectNode(
     override val type: ObjectType,
 
     @Suppress("NON_EXPORTABLE_TYPE") // it's internal
-    internal val children: MutableList<Node>
-) : Node
+    internal val children: JMap<String, Node>
+) : Node {
+
+    override fun toString(): String =
+        "object node ${type.title}: \n" + children.map { "${it.key}: ${it.value} \n" } + "\n"
+
+}
 
 @JsExport
 class ArrayNode(
@@ -30,10 +35,13 @@ class ArrayNode(
 ) : Node {
     private val element: ObjectElement? = null
 
-    fun addElement(): Node {
-        val node =
-        children.add()
-    }
+    override fun toString(): String =
+        "array node ${type.title}: \n" + children.map { it.toString() + "\n" } + "\n"
+
+//    fun addElement(): Node {
+//        val node =
+//        children.add()
+//    }
 }
 
 @JsExport
@@ -41,6 +49,13 @@ class NodeWithoutChildren(
     override val type: DataType,
 ) : Node {
     private val value: JsonElement? = null
+
+    override fun toString(): String =
+        "node ${type.title} \n"
 }
 
-private fun DataType.toNode
+fun DataType.toNode() : Node = when (this) {
+    is ArrayType -> ArrayNode(this, prefixItems.map { it.toNode() }.toMutableList())
+    is ObjectType -> ObjectNode(this, JMap(properties.map { e -> JMapEntry(e.key, e.value.toNode()) }.toTypedArray()))
+    else -> NodeWithoutChildren(this)
+}
