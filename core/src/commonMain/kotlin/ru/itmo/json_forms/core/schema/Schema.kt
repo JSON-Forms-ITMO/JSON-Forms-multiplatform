@@ -23,7 +23,7 @@ private fun parseDataType(obj: JsonObject): DataType {
         }
     }
     val type = if (obj.containsKey("enum")) {
-        EnumType(obj["enum"]!!.jsonArray.map { it.toString() })
+        EnumType(obj["enum"]!!.jsonArray.map { it.jsonPrimitive.content })
     } else when(val t = obj["type"]) {
         is JsonPrimitive -> {
             when(t.content) {
