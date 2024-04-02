@@ -35,6 +35,9 @@ class NumberType : BasicType()
 class IntegerType : BasicType()
 class BooleanType : BasicType()
 
+data class OptionalType(val type: DataType) : BasicType() {
+    override fun toString() = "$type?"
+}
 data class VariantType(val tags: List<DataType>) : BasicType() {
     override fun toString() = super.toString() + "[ " + tags.joinToString(" | ") + " ]"
 }

@@ -39,7 +39,13 @@ private fun parseDataType(obj: JsonObject): DataType {
             }
         }
         is JsonArray -> {
-            VariantType(t.map { parsePrimitive(it.jsonPrimitive) })
+            val variantTypes = t.map { parsePrimitive(it.jsonPrimitive) }
+            if (variantTypes.size == 2 && variantTypes.contains(NullType())) {
+                var someType = variantTypes.find { it != NullType() }!!
+                OptionalType(someType)
+            } else {
+                VariantType(variantTypes)
+            }
         }
         else -> fallback()
     }
