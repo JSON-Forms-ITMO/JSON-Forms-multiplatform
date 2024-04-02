@@ -11,6 +11,9 @@ class Schema(rawSchema: JsonObject) {
 }
 
 private fun parseDataType(obj: JsonObject): DataType {
+    if (obj.containsKey("enum")) {
+        return EnumType(obj["enum"]!!.jsonArray.map { it.toString() })
+    }
     return when(val t = obj["type"]) {
         is JsonPrimitive -> {
             when(t.content) {
@@ -83,7 +86,7 @@ private fun visit(depth: Int, type: DataType): String {
             indent(it.first) + ":\n" + visit(depth + 1, it.second)
         }
         is ArrayType -> {
-            indent("type = [") + "\n" +
+            indent("type = $type[") + "\n" +
             type.prefixItems.toList().joinToString("\n") {
                 visit(depth + 1, it)
             } +

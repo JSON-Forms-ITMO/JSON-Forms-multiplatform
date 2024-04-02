@@ -34,8 +34,12 @@ class StringType : BasicType()
 class NumberType : BasicType()
 class IntegerType : BasicType()
 class BooleanType : BasicType()
+
 data class VariantType(val tags: List<DataType>) : BasicType() {
-    override fun toString() = "[" + tags.joinToString(", ") + "]"
+    override fun toString() = super.toString() + "[ " + tags.joinToString(" | ") + " ]"
+}
+data class EnumType(val values: List<String>) : BasicType() {
+    override fun toString() = super.toString() + "[ " + values.joinToString(" | ") + " ]"
 }
 
 data class ObjectType(val properties: Map<String, DataType>) : DataType() {
@@ -45,5 +49,3 @@ data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : Dat
     override fun toString() = this::class.simpleName!!
 }
 
-
-data class EnumType(val set: Set<DataType>) : DataType()
