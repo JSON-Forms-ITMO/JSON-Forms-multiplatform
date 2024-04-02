@@ -6,7 +6,7 @@ import ru.itmo.json_forms.core.schema.*
 
 fun main() {
     val repoDir = FileUtils.cwd().removeSuffix("/core")
-    val jsonPath = "$repoDir/testdata/aiproj-1.2.json"
+    val jsonPath = "$repoDir/testdata/crowdin.json"
     val rawJson = FileUtils.readFile(jsonPath)
     val rawSchema = Json.decodeFromString<JsonObject>(rawJson)
     val schema = Schema(rawSchema)

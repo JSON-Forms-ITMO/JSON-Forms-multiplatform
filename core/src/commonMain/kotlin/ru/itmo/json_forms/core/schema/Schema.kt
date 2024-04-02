@@ -14,6 +14,17 @@ private fun parseDataType(obj: JsonObject): DataType {
     if (obj.containsKey("enum")) {
         return EnumType(obj["enum"]!!.jsonArray.map { it.toString() })
     }
+    fun fallback(): DataType {
+        return if (obj.containsKey("properties")
+            || obj.containsKey("patternProperties")
+            || obj.containsKey("additionalProperties")
+            || obj.containsKey("unevaluatedProperties")
+        ) {
+            parseObjectType(obj)
+        } else {
+            UnknownType()
+        }
+    }
     return when(val t = obj["type"]) {
         is JsonPrimitive -> {
             when(t.content) {
@@ -24,19 +35,13 @@ private fun parseDataType(obj: JsonObject): DataType {
                 "null" -> NullType()
                 "object" -> parseObjectType(obj)
                 "array" -> parseArrayType(obj)
-                else -> {
-                    if (obj.containsKey("properties")) {
-                        parseObjectType(obj)
-                    } else {
-                        UnknownType()
-                    }
-                }
+                else -> fallback()
             }
         }
         is JsonArray -> {
             VariantType(t.map { parsePrimitive(it.jsonPrimitive) })
         }
-        else -> UnknownType()
+        else -> fallback()
     }
         .withTitle(obj["title"]?.toString())
         .withDescription(obj["description"]?.toString())
@@ -82,8 +87,14 @@ private fun visit(depth: Int, type: DataType): String {
     }
     res += when(type) {
         is BasicType -> indent("type = $type")
-        is ObjectType -> type.properties.toList().joinToString("\n") {
-            indent(it.first) + ":\n" + visit(depth + 1, it.second)
+        is ObjectType -> {
+            if (type.properties.isEmpty()) {
+                indent("<no properties>")
+            } else {
+                type.properties.toList().joinToString("\n") {
+                    indent(it.first) + ":\n" + visit(depth + 1, it.second)
+                }
+            }
         }
         is ArrayType -> {
             indent("type = $type[") + "\n" +
