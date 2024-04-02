@@ -12,7 +12,7 @@ class Schema(rawSchema: JsonObject) {
 }
 
 private fun parseDataType(obj: JsonObject): DataType {
-    return when(obj["type"].toString()) {
+    return when(obj["type"].toString().removeSurrounding("\"")) {
         "string" -> StringType()
         "number" -> NumberType()
         "integer" -> IntegerType()
