@@ -43,9 +43,6 @@ class NumberType : BasicType()
 class IntegerType : BasicType()
 class BooleanType : BasicType()
 
-data class OptionalType(val type: DataType) : BasicType() {
-    override fun toString() = "$type?"
-}
 data class VariantType(val tags: List<DataType>) : BasicType() {
     override fun toString() = super.toString() + "[ " + tags.joinToString(" | ") + " ]"
 }
@@ -53,6 +50,9 @@ data class EnumType(val values: List<String>) : BasicType() {
     override fun toString() = super.toString() + "[ " + values.joinToString(" | ") + " ]"
 }
 
+data class OptionalType(val type: DataType) : DataType() {
+    override fun toString() = "$type?"
+}
 data class ObjectType(val properties: Map<String, DataType>, val required: Set<String>) : DataType() {
     val optionalProperties = properties.filterNot { required.contains(it.key) }
     val requiredProperties = properties.filter { required.contains(it.key) }

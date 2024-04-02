@@ -42,7 +42,12 @@ private fun parseDataType(obj: JsonObject): DataType {
             val variantTypes = t.map { parsePrimitive(it.jsonPrimitive) }
             if (variantTypes.size == 2 && variantTypes.contains(NullType())) {
                 val someType = variantTypes.find { it != NullType() }!!
-                OptionalType(someType)
+                val someType2 = when(someType) {
+                    is ObjectType -> parseObjectType(obj)
+                    is ArrayType -> parseArrayType(obj)
+                    else -> someType
+                }
+                OptionalType(someType2)
             } else {
                 VariantType(variantTypes)
             }
@@ -62,6 +67,7 @@ private fun parsePrimitive(prim: JsonPrimitive): DataType {
         "boolean" -> BooleanType()
         "null" -> NullType()
         "object" -> ObjectType(emptyMap(), emptySet())
+        "array" -> ArrayType(emptyList(), UnknownType())
         else -> UnknownType()
     }
 }
@@ -102,7 +108,9 @@ private fun visit(depth: Int, type: DataType): String {
                 res += type.requiredProperties.toList().joinToString("\n") {
                     indent(it.first) + ": <required>\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
                 }
-                res += "\n"
+                if (type.requiredProperties.isNotEmpty()) {
+                    res += "\n"
+                }
                 res += type.optionalProperties.toList().joinToString("\n") {
                     indent(it.first) + ":\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
                 }
@@ -116,6 +124,9 @@ private fun visit(depth: Int, type: DataType): String {
             }
             res += visit(depth + 1, type.items).trimEnd('\n', ' ') + "..."
             res += indent("\n]")
+        }
+        is OptionalType -> {
+            res += visit(depth, type.type).trimEnd('\n', ' ')
         }
     }
     type.defaultValue?.let {
