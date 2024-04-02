@@ -102,11 +102,12 @@ private fun visit(depth: Int, type: DataType): String {
     when(type) {
         is BasicType -> res += indent("type = $type") + "\n"
         is ObjectType -> {
+            res += indent("type = $type") + "\n"
             if (type.properties.isEmpty()) {
                 res += indent("<no properties>")
             } else {
                 res += type.requiredProperties.toList().joinToString("\n") {
-                    indent(it.first) + ": <required>\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
+                    indent(it.first) + ": >> required <<\n" + visit(depth + 1, it.second).trimEnd('\n', ' ')
                 }
                 if (type.requiredProperties.isNotEmpty()) {
                     res += "\n"
@@ -126,6 +127,7 @@ private fun visit(depth: Int, type: DataType): String {
             res += indent("\n]")
         }
         is OptionalType -> {
+            res += indent(">> optional <<") + "\n"
             res += visit(depth, type.type).trimEnd('\n', ' ')
         }
     }
