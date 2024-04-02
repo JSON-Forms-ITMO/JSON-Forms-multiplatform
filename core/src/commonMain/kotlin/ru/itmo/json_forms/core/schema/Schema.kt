@@ -1,8 +1,6 @@
 package ru.itmo.json_forms.core.schema
 
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.*
 
 class Schema(rawSchema: JsonObject) {
     val root: DataType = parseDataType(rawSchema)
@@ -13,23 +11,44 @@ class Schema(rawSchema: JsonObject) {
 }
 
 private fun parseDataType(obj: JsonObject): DataType {
-    return when(obj["type"].toString().removeSurrounding("\"")) {
+    return when(val t = obj["type"]) {
+        is JsonPrimitive -> {
+            when(t.content) {
+                "string" -> StringType()
+                "number" -> NumberType()
+                "integer" -> IntegerType()
+                "boolean" -> BooleanType()
+                "null" -> NullType()
+                "object" -> parseObjectType(obj)
+                "array" -> parseArrayType(obj)
+                else -> {
+                    if (obj.containsKey("properties")) {
+                        parseObjectType(obj)
+                    } else {
+                        UnknownType()
+                    }
+                }
+            }
+        }
+        is JsonArray -> {
+            VariantType(t.map { parsePrimitive(it.jsonPrimitive) })
+        }
+        else -> UnknownType()
+    }
+        .withTitle(obj["title"]?.toString())
+        .withDescription(obj["description"]?.toString())
+}
+
+private fun parsePrimitive(prim: JsonPrimitive): DataType {
+    return when(prim.content) {
         "string" -> StringType()
         "number" -> NumberType()
         "integer" -> IntegerType()
         "boolean" -> BooleanType()
         "null" -> NullType()
-        "object" -> parseObjectType(obj)
-        "array" -> parseArrayType(obj)
-        else ->
-            if (obj.containsKey("properties")) {
-                parseObjectType(obj)
-            } else {
-                UnknownType()
-            }
+        "object" -> ObjectType(emptyMap())
+        else -> UnknownType()
     }
-        .withTitle(obj["title"]?.toString())
-        .withDescription(obj["description"]?.toString())
 }
 
 private fun parseObjectType(obj: JsonObject): ObjectType {
