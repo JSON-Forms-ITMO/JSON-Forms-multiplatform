@@ -27,6 +27,8 @@ private fun parseDataType(obj: JsonObject): DataType {
                 UnknownType()
             }
     }
+        .withTitle(obj["title"]?.toString())
+        .withDescription(obj["description"]?.toString())
 }
 
 private fun parseObjectType(obj: JsonObject): ObjectType {
@@ -39,12 +41,20 @@ private fun parseObjectType(obj: JsonObject): ObjectType {
 
 private fun visit(depth: Int, type: DataType): String {
     fun indent(str: String) = str.prependIndent("  ".repeat(depth))
-    return when(type) {
-        is BasicType -> indent(type.toString())
+    var res = ""
+    type.title?.let {
+        res += indent("title = $it") + "\n"
+    }
+    type.description?.let {
+        res += indent("description = $it") + "\n"
+    }
+    res += when(type) {
+        is BasicType -> indent("type = $type")
         is ObjectType -> type.properties.toList().joinToString("\n") {
             indent(it.first) + ":\n" + visit(depth + 1, it.second)
         }
         is ArrayType -> indent("Array<${visit(0, type.items)}>")
         else -> ""
     }
+    return res
 }
