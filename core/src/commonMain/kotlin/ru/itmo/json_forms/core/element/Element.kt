@@ -16,7 +16,7 @@ class BooleanElement(type: BooleanType) : BasicElement<BooleanType>(type)
 class EnumElement(type: EnumType) : BasicElement<EnumType>(type)
 
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
-    private val properties = mutableMapOf<String, Element<DataType>>()
+    val properties = mutableMapOf<String, Element<DataType>>()
 }
 class ArrayElement(
     type: ArrayType,

@@ -1,6 +1,11 @@
 package ru.itmo.json_forms.core.schema
 
-abstract class DataType {
+import ru.itmo.json_forms.core.ir.JMap
+import ru.itmo.json_forms.core.ir.toJMap
+import kotlin.js.JsExport
+
+@JsExport
+sealed class DataType {
     var title: String? = null
     var description: String? = null
     var defaultValue: String? = null
@@ -21,7 +26,8 @@ abstract class DataType {
     }
 }
 
-abstract class BasicType : DataType() { // because data classes require at least 1 parameter
+@JsExport
+sealed class BasicType : DataType() { // because data classes require at least 1 parameter
     override fun equals(other: Any?): Boolean {
         return if (other == null) {
             false
@@ -33,29 +39,47 @@ abstract class BasicType : DataType() { // because data classes require at least
     override fun toString() = this::class.simpleName!!
 }
 
+@JsExport
 class UnknownType : BasicType()
 
+@JsExport
 class NullType : BasicType()
+
+@JsExport
 class StringType : BasicType()
+
+@JsExport
 class NumberType : BasicType()
+
+@JsExport
 class IntegerType : BasicType()
+
+@JsExport
 class BooleanType : BasicType()
 
-data class VariantType(val tags: List<DataType>) : BasicType() {
+@JsExport
+class VariantType(val tags: Array<DataType>) : BasicType() {
     override fun toString() = super.toString() + "[ " + tags.joinToString(" | ") + " ]"
 }
-data class EnumType(val values: List<String>) : BasicType() {
+
+@JsExport
+class EnumType(val values: Array<String>) : BasicType() {
     override fun toString() = super.toString() + "[ " + values.joinToString(" | ") + " ]"
 }
 
-data class OptionalType(val type: DataType) : DataType() {
+@JsExport
+class OptionalType(val type: DataType) : DataType() {
     override fun toString() = "$type?"
 }
-data class ObjectType(val properties: Map<String, DataType>, val required: Set<String>) : DataType() {
-    val optionalProperties = properties.filterNot { required.contains(it.key) }
-    val requiredProperties = properties.filter { required.contains(it.key) }
+
+@JsExport
+class ObjectType(val properties: JMap<String, DataType>, val required: Array<String>) : DataType() {
+    val optionalProperties = properties.filterNot { required.contains(it.key) }.toJMap()
+    val requiredProperties = properties.filter { required.contains(it.key) }.toJMap()
     override fun toString() = this::class.simpleName!!
 }
-data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : DataType() {
+
+@JsExport
+data class ArrayType(val prefixItems: Array<DataType>, val items: DataType) : DataType() {
     override fun toString() = this::class.simpleName!!
 }

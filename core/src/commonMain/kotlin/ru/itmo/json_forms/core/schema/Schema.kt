@@ -1,6 +1,8 @@
 package ru.itmo.json_forms.core.schema
 
 import kotlinx.serialization.json.*
+import ru.itmo.json_forms.core.ir.JMap
+import ru.itmo.json_forms.core.ir.toJMap
 
 class Schema(rawSchema: JsonObject) {
     val root: DataType = parseDataType(rawSchema)
@@ -23,7 +25,7 @@ private fun parseDataType(obj: JsonObject): DataType {
         }
     }
     val type = if (obj.containsKey("enum")) {
-        EnumType(obj["enum"]!!.jsonArray.map { it.jsonPrimitive.content })
+        EnumType(obj["enum"]!!.jsonArray.map { it.jsonPrimitive.content }.toTypedArray())
     } else when(val t = obj["type"]) {
         is JsonPrimitive -> {
             when(t.content) {
@@ -48,7 +50,7 @@ private fun parseDataType(obj: JsonObject): DataType {
                 }
                 OptionalType(someType2)
             } else {
-                VariantType(variantTypes)
+                VariantType(variantTypes.toTypedArray())
             }
         }
         else -> fallback()
@@ -66,8 +68,8 @@ private fun parsePrimitive(prim: JsonPrimitive): DataType {
         "integer" -> IntegerType()
         "boolean" -> BooleanType()
         "null" -> NullType()
-        "object" -> ObjectType(emptyMap(), emptySet())
-        "array" -> ArrayType(emptyList(), UnknownType())
+        "object" -> ObjectType(JMap(emptyArray()), emptyArray())
+        "array" -> ArrayType(emptyArray(), UnknownType())
         else -> UnknownType()
     }
 }
@@ -78,7 +80,7 @@ private fun parseObjectType(obj: JsonObject): ObjectType {
         it.value.jsonObject.let { value -> properties[it.key] = parseDataType(value) }
     }
     val required = obj["required"]?.jsonArray?.map { it.jsonPrimitive.content }?.toSet() ?: emptySet()
-    return ObjectType(properties, required)
+    return ObjectType(properties.toJMap(), required.toTypedArray())
 }
 
 private fun parseArrayType(obj: JsonObject): ArrayType {
@@ -87,7 +89,7 @@ private fun parseArrayType(obj: JsonObject): ArrayType {
     obj["prefixItems"]?.jsonArray?.forEach {
         it.jsonObject.let { prefix -> prefixItems.add(parseDataType(prefix)) }
     }
-    return ArrayType(prefixItems, items ?: UnknownType())
+    return ArrayType(prefixItems.toTypedArray(), items ?: UnknownType())
 }
 
 private fun visit(depth: Int, type: DataType): String {
