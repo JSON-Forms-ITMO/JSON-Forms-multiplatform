@@ -11,9 +11,6 @@ class Schema(rawSchema: JsonObject) {
 }
 
 private fun parseDataType(obj: JsonObject): DataType {
-    if (obj.containsKey("enum")) {
-        return EnumType(obj["enum"]!!.jsonArray.map { it.toString() })
-    }
     fun fallback(): DataType {
         return if (obj.containsKey("properties")
             || obj.containsKey("patternProperties")
@@ -25,7 +22,9 @@ private fun parseDataType(obj: JsonObject): DataType {
             UnknownType()
         }
     }
-    return when(val t = obj["type"]) {
+    val type = if (obj.containsKey("enum")) {
+        EnumType(obj["enum"]!!.jsonArray.map { it.toString() })
+    } else when(val t = obj["type"]) {
         is JsonPrimitive -> {
             when(t.content) {
                 "string" -> StringType()
@@ -54,6 +53,7 @@ private fun parseDataType(obj: JsonObject): DataType {
         }
         else -> fallback()
     }
+    return type
         .withTitle(obj["title"]?.toString())
         .withDescription(obj["description"]?.toString())
         .withDefaultValue(obj["default"]?.toString())
