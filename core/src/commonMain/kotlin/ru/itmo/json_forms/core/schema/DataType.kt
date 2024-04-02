@@ -1,15 +1,28 @@
 package ru.itmo.json_forms.core.schema
 
-interface DataType
+abstract class DataType
 
-data class NullType(private val value: Nothing? = null) : DataType
+abstract class BasicType : DataType() { // because data classes require at least 1 parameter
+    override fun equals(other: Any?): Boolean {
+        return if (other == null) {
+            false
+        } else {
+            this::class == other::class
+        }
+    }
+    override fun hashCode() = this::class.hashCode()
+    override fun toString() = this::class.simpleName!!
+}
 
-data class StringType(val name: String) : DataType
-data class NumberType(val name: String) : DataType
-data class IntegerType(val name: String) : DataType
-data class BooleanType(val name: String) : DataType
+class UnknownType : BasicType()
 
-data class ObjectType(val properties: Map<String, DataType>)
-data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : DataType
+class NullType : BasicType()
+class StringType : BasicType()
+class NumberType : BasicType()
+class IntegerType : BasicType()
+class BooleanType : BasicType()
 
-data class EnumType(val set: Set<DataType>) : DataType
+data class ObjectType(val properties: Map<String, DataType>) : DataType()
+data class ArrayType(val prefixItems: List<DataType>, val items: DataType) : DataType()
+
+data class EnumType(val set: Set<DataType>) : DataType()

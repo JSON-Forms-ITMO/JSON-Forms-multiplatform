@@ -1,14 +1,15 @@
 package ru.itmo.json_forms.core
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import ru.itmo.json_forms.core.schema.JsonSchemaParser
-import ru.itmo.json_forms.core.schema.SchemaParser
 
 fun main() {
     val schema = FileUtils.readFile("/Users/vfeofilaktov/labs/json-forms-main/testdata/aiproj/aiproj-1.2.json")
     val json = FileUtils.readFile("/Users/vfeofilaktov/labs/json-forms-main/testdata/aiproj/aiproj.json")
 
-    val schemaObj = SchemaParser.parse(schema)
-    val jsonObj = SchemaParser.parse(json)
+    val schemaObj = Json.decodeFromString<JsonObject>(schema)
+    val jsonObj = Json.decodeFromString<JsonObject>(json)
     val schemaParser = JsonSchemaParser(schemaObj)
     val tree = schemaParser.match("root", jsonObj, schemaObj)
     print(tree.prettyPrint())
