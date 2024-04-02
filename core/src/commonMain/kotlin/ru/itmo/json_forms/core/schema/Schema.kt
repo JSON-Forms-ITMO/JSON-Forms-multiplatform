@@ -1,6 +1,7 @@
 package ru.itmo.json_forms.core.schema
 
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
 class Schema(rawSchema: JsonObject) {
@@ -19,7 +20,7 @@ private fun parseDataType(obj: JsonObject): DataType {
         "boolean" -> BooleanType()
         "null" -> NullType()
         "object" -> parseObjectType(obj)
-        "array" -> UnknownType()
+        "array" -> parseArrayType(obj)
         else ->
             if (obj.containsKey("properties")) {
                 parseObjectType(obj)
@@ -39,6 +40,15 @@ private fun parseObjectType(obj: JsonObject): ObjectType {
     return ObjectType(properties)
 }
 
+private fun parseArrayType(obj: JsonObject): ArrayType {
+    val items = obj["items"]?.let { parseDataType(it.jsonObject) }
+    val prefixItems = mutableListOf<DataType>()
+    obj["prefixItems"]?.jsonArray?.forEach {
+        it.jsonObject.let { prefix -> prefixItems.add(parseDataType(prefix)) }
+    }
+    return ArrayType(prefixItems, items ?: UnknownType())
+}
+
 private fun visit(depth: Int, type: DataType): String {
     fun indent(str: String) = str.prependIndent("  ".repeat(depth))
     var res = ""
@@ -53,7 +63,14 @@ private fun visit(depth: Int, type: DataType): String {
         is ObjectType -> type.properties.toList().joinToString("\n") {
             indent(it.first) + ":\n" + visit(depth + 1, it.second)
         }
-        is ArrayType -> indent("Array<${visit(0, type.items)}>")
+        is ArrayType -> {
+            indent("type = [") + "\n" +
+            type.prefixItems.toList().joinToString("\n") {
+                visit(depth + 1, it)
+            } +
+            visit(depth + 1, type.items) + "..." +
+            indent("\n]")
+        }
         else -> ""
     }
     return res
