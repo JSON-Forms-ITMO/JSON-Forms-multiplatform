@@ -3,6 +3,7 @@ package ru.itmo.json_forms.core.schema
 abstract class DataType {
     var title: String? = null
     var description: String? = null
+    var defaultValue: String? = null
 
     fun withTitle(title: String?): DataType {
         this.title = title
@@ -11,6 +12,11 @@ abstract class DataType {
 
     fun withDescription(description: String?): DataType {
         this.description = description
+        return this
+    }
+
+    fun withDefaultValue(defaultValue: String?): DataType {
+        this.defaultValue = defaultValue
         return this
     }
 }

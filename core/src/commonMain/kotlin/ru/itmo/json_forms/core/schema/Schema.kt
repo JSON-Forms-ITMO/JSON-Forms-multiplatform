@@ -51,6 +51,7 @@ private fun parseDataType(obj: JsonObject): DataType {
     }
         .withTitle(obj["title"]?.toString())
         .withDescription(obj["description"]?.toString())
+        .withDefaultValue(obj["default"]?.toString())
 }
 
 private fun parsePrimitive(prim: JsonPrimitive): DataType {
@@ -91,26 +92,29 @@ private fun visit(depth: Int, type: DataType): String {
     type.description?.let {
         res += indent("description = $it") + "\n"
     }
-    res += when(type) {
-        is BasicType -> indent("type = $type")
+    when(type) {
+        is BasicType -> res += indent("type = $type") + "\n"
         is ObjectType -> {
-            if (type.properties.isEmpty()) {
+            res += if (type.properties.isEmpty()) {
                 indent("<no properties>")
             } else {
                 type.properties.toList().joinToString("\n") {
-                    indent(it.first) + ":\n" + visit(depth + 1, it.second)
+                    indent(it.first) + ":\n" + visit(depth + 1, it.second).removeSuffix("\n")
                 }
             }
         }
         is ArrayType -> {
-            indent("type = $type[") + "\n" +
-            type.prefixItems.toList().joinToString("\n") {
-                visit(depth + 1, it)
-            } +
-            visit(depth + 1, type.items) + "..." +
-            indent("\n]")
+            res += indent("type = $type[")
+            res += "\n"
+            res += type.prefixItems.toList().joinToString("\n") {
+                visit(depth + 1, it).removeSuffix("\n")
+            }
+            res += visit(depth + 1, type.items) + "..."
+            res += indent("\n]")
         }
-        else -> ""
+    }
+    type.defaultValue?.let {
+        res += indent("default = $it")
     }
     return res
 }
