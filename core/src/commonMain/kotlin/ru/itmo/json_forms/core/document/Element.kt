@@ -30,10 +30,10 @@ class StringElement(type: StringType) : BasicElement<StringType>(type) {
     override fun toJsonElement() = JsonPrimitive(value)
 }
 class NumberElement(type: NumberType) : BasicElement<NumberType>(type) {
-    override fun toJsonElement() = JsonPrimitive(value)
+    override fun toJsonElement() = JsonPrimitive(JsonNumber(value))
 }
 class IntegerElement(type: IntegerType) : BasicElement<IntegerType>(type) {
-    override fun toJsonElement() = JsonPrimitive(value)
+    override fun toJsonElement() = JsonPrimitive(JsonNumber(value))
 }
 class BooleanElement(type: BooleanType) : BasicElement<BooleanType>(type) {
     override fun toJsonElement() = JsonPrimitive(value.toBoolean())
