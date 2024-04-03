@@ -5,9 +5,24 @@ import ru.itmo.json_forms.core.schema.*
 import ru.itmo.json_forms.core.schema.ObjectType
 
 abstract class Element<out T: DataType>(val type: T) {
+    abstract fun accept(visitor: DocumentVisitor)
+
     abstract fun toJsonElement(): JsonElement
 
     override fun toString() = this::class.simpleName.toString()
+}
+
+interface DocumentVisitor {
+    fun visit(element: UnresolvedElement)
+    fun visit(element: NullElement)
+    fun visit(element: StringElement)
+    fun visit(element: NumberElement)
+    fun visit(element: IntegerElement)
+    fun visit(element: BooleanElement)
+    fun visit(element: EnumElement)
+    fun visit(element: ObjectElement)
+    fun visit(element: ArrayElement)
+    fun visit(element: OptionalElement)
 }
 
 abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
@@ -20,29 +35,61 @@ abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
 }
 
 class UnresolvedElement(type: DataType, val untouched: JsonElement) : Element<DataType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = untouched
 }
 
 class NullElement(type: NullType) : BasicElement<NullType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonNull
 }
 class StringElement(type: StringType) : BasicElement<StringType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonPrimitive(value)
 }
 class NumberElement(type: NumberType) : BasicElement<NumberType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonPrimitive(JsonNumber(value))
 }
 class IntegerElement(type: IntegerType) : BasicElement<IntegerType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonPrimitive(JsonNumber(value))
 }
 class BooleanElement(type: BooleanType) : BasicElement<BooleanType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonPrimitive(value.toBoolean())
 }
 class EnumElement(type: EnumType) : BasicElement<EnumType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     override fun toJsonElement() = JsonPrimitive(value) // TODO: store actual type somewhere
 }
 
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     internal val properties = mutableMapOf<String, Element<*>>()
 
     fun properties() = properties.toMap()
@@ -63,6 +110,10 @@ class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
 }
 
 class ArrayElement(type: ArrayType, items: List<Element<*>>) : Element<ArrayType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     private val items: MutableList<Element<*>> = items.toMutableList()
 
     fun items() = items.toList()
@@ -82,6 +133,10 @@ class ArrayElement(type: ArrayType, items: List<Element<*>>) : Element<ArrayType
 }
 
 class OptionalElement(type: OptionalType, private var value: Element<*>?) : Element<OptionalType>(type) {
+    override fun accept(visitor: DocumentVisitor) {
+        visitor.visit(this)
+    }
+
     fun get(): Element<*>? = value
 
     fun some(value: Element<*>) {
