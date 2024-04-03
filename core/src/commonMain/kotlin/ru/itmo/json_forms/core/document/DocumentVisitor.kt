@@ -4,6 +4,21 @@ import kotlin.js.JsExport
 
 @JsExport
 interface DocumentVisitor {
+    fun visit(element: Element<*>) {
+        when (element) {
+            is ArrayElement -> visitArray(element)
+            is BooleanElement -> visitBoolean(element)
+            is EnumElement -> visitEnum(element)
+            is IntegerElement -> visitInteger(element)
+            is NullElement -> visitNull(element)
+            is NumberElement -> visitNumber(element)
+            is StringElement -> visitString(element)
+            is ObjectElement -> visitObject(element)
+            is OptionalElement -> visitOptional(element)
+            is UnresolvedElement -> visitUnresolved(element)
+        }
+    }
+
     fun visitDocument(document: Document)
     fun visitUnresolved(element: UnresolvedElement)
     fun visitNull(element: NullElement)
