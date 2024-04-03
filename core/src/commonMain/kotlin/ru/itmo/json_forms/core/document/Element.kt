@@ -43,7 +43,7 @@ class EnumElement(type: EnumType) : BasicElement<EnumType>(type) {
 }
 
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
-    private val properties = mutableMapOf<String, Element<*>>()
+    internal val properties = mutableMapOf<String, Element<*>>()
 
     fun properties() = properties.toMap()
 
