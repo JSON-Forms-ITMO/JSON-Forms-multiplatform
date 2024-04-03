@@ -12,7 +12,7 @@ abstract class Element<out T: DataType>(val type: T) {
 
 abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
     protected var value = type.defaultValue
-    fun withValue(value: String?): BasicElement<T> {
+    internal fun withValue(value: String?): BasicElement<T> {
         this.value = value
         return this
     }
