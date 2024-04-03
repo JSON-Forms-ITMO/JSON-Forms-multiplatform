@@ -10,4 +10,8 @@ object FileUtils {
     fun cwd(): String {
         return Paths.get("").toAbsolutePath().toString()
     }
+
+    fun writeFile(path: String, content: String) {
+        File(path).writeText(content)
+    }
 }

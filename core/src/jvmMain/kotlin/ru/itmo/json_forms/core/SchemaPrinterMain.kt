@@ -27,4 +27,8 @@ fun main() {
 
     val irBuilder = IrBuilder(schema)
     irBuilder.build("{}")
+
+    val htmlAdapter = HtmlAdapter()
+    val controller = AdapterController()
+    controller.startAdapterWith(document, htmlAdapter)
 }

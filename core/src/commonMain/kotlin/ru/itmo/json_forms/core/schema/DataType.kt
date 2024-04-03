@@ -1,5 +1,6 @@
 package ru.itmo.json_forms.core.schema
 
+import ru.itmo.json_forms.core.Utils
 import ru.itmo.json_forms.core.ir.JMap
 import ru.itmo.json_forms.core.ir.toJMap
 import kotlin.js.JsExport
@@ -9,6 +10,7 @@ sealed class DataType {
     var title: String? = null
     var description: String? = null
     var defaultValue: String? = null
+    val uniqId: String = Utils.generateUUID()
 
     fun withTitle(title: String?): DataType {
         this.title = title
