@@ -1,12 +1,74 @@
 {
-  "ProjectName": "project-name",
-  "ProgrammingLanguage": "Java",
-  "ScanModules": [],
-  "DotNetSettings": {
-    "CustomParameters": "js-params",
-    "DownloadDependencies": true
+  "Version": "1.1",
+  "BlackBoxSettings": {
+    "AdditionalHttpHeaders": [
+      {
+        "addc4": "mollit deserunt elit",
+        "ipsum_5b6": -37327083.06452124,
+        "ex11": false,
+        "consectetur07": -72294974.31659922,
+        "Key": "in dolor",
+        "Value": "officia"
+      },
+      {
+        "Key": "pariatur",
+        "Value": "aute officia"
+      },
+      {
+        "eu_ba": false,
+        "Key": "elit",
+        "Value": "nisi laborum mollit non"
+      },
+      {
+        "Key": "aliqua ullamco",
+        "Value": "consectetur ad sunt"
+      }
+    ],
+    "WhiteListedAddresses": [
+      {
+        "in_228": -60151700.56190873,
+        "proident233": -97808538
+      }
+    ],
+    "BlackListedAddresses": [
+      {
+        "cupidatatb": false,
+        "do1fc": "id sit",
+        "Lorem_6f_": 76755840.25541416,
+        "Address": "dolore",
+        "Format": "ExactMatch"
+      }
+    ],
+    "Authentication": {
+      "Form": {
+        "FormDetection": "Manual",
+        "FormAddress": "sit commodo ad enim dolore",
+        "Login": "et ad",
+        "Password": "ut dolore incididunt amet ipsum",
+        "ValidationTemplate": "Ut esse mollit exercitation"
+      },
+      "Type": "Http"
+    },
+    "Level": "Normal",
+    "ProxySettings": {
+      "Host": "minim magna quis incididunt dolore",
+      "Port": -79285207
+    },
+    "RunAutocheckAfterScan": false,
+    "ScanScope": "Folder",
+    "SslCheck": true
   },
-  "JavaSettings": {
-    "DownloadDependencies": true
-  }
+  "JavaSettings": null,
+  "ProgrammingLanguage": "CSharp",
+  "ProjectName": "labore et est",
+  "ScanModules": [
+    "Configuration",
+    "Components",
+    "VulnerableSourceCode",
+    "PatternMatching"
+  ],
+  "UseSastRules": false,
+  "UseCustomPmRules": false,
+  "UseSecurityPolicies": true,
+  "DownloadDependencies": null
 }
