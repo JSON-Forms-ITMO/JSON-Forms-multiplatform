@@ -54,7 +54,7 @@ class NodeWithoutChildren(
 }
 
 fun DataType.toNode() : Node = when (this) {
-    is ArrayType -> ArrayNode(this, prefixItems.map { it.toNode() }.toMutableList())
+    is ArrayType -> ArrayNode(this, mutableListOf())
     is ObjectType -> ObjectNode(this, JMap(properties.map { e -> JMapEntry(e.key, e.value.toNode()) }.toTypedArray()))
     else -> NodeWithoutChildren(this)
 }
