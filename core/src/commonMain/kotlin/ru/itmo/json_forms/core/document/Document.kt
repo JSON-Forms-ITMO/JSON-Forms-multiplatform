@@ -6,6 +6,7 @@ import ru.itmo.json_forms.core.schema.*
 class Document(schema: Schema, rawJson: JsonElement) {
     val root = fromJson(rawJson, schema.root)
 
+    fun toJsonString() = root.toJsonElement()
     override fun toString() = "Document: root = $root"
 }
 
@@ -35,6 +36,6 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
                 else -> OptionalElement(type, fromJson(json, type.someType))
             }
         }
-        else -> UnresolvedElement(type)
+        else -> UnresolvedElement(type, json)
     } as Element<T> // it is required somehow
 }

@@ -1,5 +1,6 @@
 package ru.itmo.json_forms.core
 
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import ru.itmo.json_forms.core.document.Document
@@ -18,7 +19,11 @@ fun main() {
     val rawDocumentText = FileUtils.readFile(documentPath)
     val rawDocumentJson = Json.decodeFromString<JsonObject>(rawDocumentText)
     val document = Document(schema, rawDocumentJson)
-    println(document)
+
+    val prettyJson = Json { // this returns the JsonBuilder
+        prettyPrint = true
+    }
+    println(prettyJson.encodeToString(document.toJsonString()))
 
     val irBuilder = IrBuilder(schema)
     irBuilder.build("{}")
