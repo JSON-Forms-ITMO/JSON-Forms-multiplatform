@@ -58,7 +58,7 @@ private fun parseDataType(obj: JsonObject): DataType {
     return type
         .withTitle(obj["title"]?.jsonPrimitive?.content)
         .withDescription(obj["description"]?.jsonPrimitive?.content)
-        .withDefaultValue(obj["default"]?.toString())
+        .withDefaultValue(obj["default"]?.toString()?.removeSurrounding("\"")) // maybe default is not a primitive
 }
 
 private fun parsePrimitive(prim: JsonPrimitive): DataType {
