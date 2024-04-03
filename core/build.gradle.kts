@@ -17,6 +17,7 @@ rootProject.plugins.withType<YarnPlugin>().configureEach {
 }
 
 kotlin {
+    jvmToolchain(17)
     jvm()
     js(IR) {
         generateTypeScriptDefinitions()

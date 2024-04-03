@@ -23,7 +23,7 @@ fun main() {
     val prettyJson = Json { // this returns the JsonBuilder
         prettyPrint = true
     }
-    println(prettyJson.encodeToString(document.toJsonString()))
+    println(prettyJson.encodeToString(document.getJson()))
 
     val irBuilder = IrBuilder(schema)
     irBuilder.build("{}")
