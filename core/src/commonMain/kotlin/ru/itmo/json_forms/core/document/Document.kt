@@ -19,7 +19,7 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
         is BooleanType -> BooleanElement(type).withValue(json.jsonPrimitive.content)
         is EnumType -> EnumElement(type).withValue(json.jsonPrimitive.content)
         is ArrayType -> {
-            val items = json.jsonArray.map { fromJson(it, type.items) }
+            val items = json.jsonArray.map { fromJson(it, type.items) }.toTypedArray()
             ArrayElement(type, items)
         }
         is ObjectType -> {
@@ -31,7 +31,7 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
                 }
             }.toMap()
             val obj = ObjectElement(type)
-            obj.properties.putAll(properties)
+            obj.myProperties.putAll(properties)
             obj
         }
         is OptionalType -> {
