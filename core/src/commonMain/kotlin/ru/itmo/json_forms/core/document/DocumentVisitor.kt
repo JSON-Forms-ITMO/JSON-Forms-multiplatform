@@ -3,9 +3,13 @@ package ru.itmo.json_forms.core.document
 import kotlin.js.JsExport
 
 @JsExport
-interface DocumentVisitor {
-    fun visit(element: Element<*>) {
-        when (element) {
+interface DocumentVisitor<R> {
+    fun visitDocument(document: Document): R {
+        return visit(document.root)
+    }
+
+    fun visit(element: Element<*>): R {
+        return when (element) {
             is ArrayElement -> visitArray(element)
             is BooleanElement -> visitBoolean(element)
             is EnumElement -> visitEnum(element)
@@ -19,15 +23,14 @@ interface DocumentVisitor {
         }
     }
 
-    fun visitDocument(document: Document)
-    fun visitUnresolved(element: UnresolvedElement)
-    fun visitNull(element: NullElement)
-    fun visitString(element: StringElement)
-    fun visitNumber(element: NumberElement)
-    fun visitInteger(element: IntegerElement)
-    fun visitBoolean(element: BooleanElement)
-    fun visitEnum(element: EnumElement)
-    fun visitObject(element: ObjectElement)
-    fun visitArray(element: ArrayElement)
-    fun visitOptional(element: OptionalElement)
+    fun visitUnresolved(element: UnresolvedElement): R
+    fun visitNull(element: NullElement): R
+    fun visitString(element: StringElement): R
+    fun visitNumber(element: NumberElement): R
+    fun visitInteger(element: IntegerElement): R
+    fun visitBoolean(element: BooleanElement): R
+    fun visitEnum(element: EnumElement): R
+    fun visitObject(element: ObjectElement): R
+    fun visitArray(element: ArrayElement): R
+    fun visitOptional(element: OptionalElement): R
 }
