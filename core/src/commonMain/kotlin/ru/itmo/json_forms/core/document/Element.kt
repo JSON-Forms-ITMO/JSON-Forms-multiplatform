@@ -7,14 +7,14 @@ import ru.itmo.json_forms.core.schema.ObjectType
 import kotlin.js.JsExport
 
 @JsExport
-abstract class Element<out T: DataType>(val type: T) {
+sealed class Element<out T: DataType>(val type: T) {
     internal abstract fun toJsonElement(): JsonElement
 
     override fun toString() = this::class.simpleName.toString()
 }
 
 @JsExport
-abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
+sealed class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
     var value = type.defaultValue
     internal fun withValue(value: String?): BasicElement<T> {
         this.value = value
