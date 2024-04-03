@@ -1,12 +1,16 @@
 package ru.itmo.json_forms.core.document
 
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 import ru.itmo.json_forms.core.schema.*
+import kotlin.js.JsExport
 
-class Document(schema: Schema, rawJson: JsonElement) {
-    val root = fromJson(rawJson, schema.root)
+@JsExport
+class Document @JsExport.Ignore constructor(schema: Schema, jsonElement: JsonElement) {
+    val root = fromJson(jsonElement, schema.root)
 
-    fun toJsonString() = root.toJsonElement()
+    fun getJson() = Json.encodeToString(root.toJsonElement())
+
     override fun toString() = "Document: root = $root"
 }
 
