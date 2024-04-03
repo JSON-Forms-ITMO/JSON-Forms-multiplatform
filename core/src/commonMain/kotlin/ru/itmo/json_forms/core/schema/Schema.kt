@@ -132,7 +132,7 @@ private fun visit(depth: Int, type: DataType): String {
         }
         is OptionalType -> {
             res += indent(">> optional <<") + "\n"
-            res += visit(depth, type.type).trimEnd('\n', ' ')
+            res += visit(depth, type.someType).trimEnd('\n', ' ')
         }
     }
     type.defaultValue?.let {

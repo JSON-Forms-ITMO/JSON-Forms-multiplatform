@@ -68,8 +68,8 @@ class EnumType(val values: Array<String>) : BasicType() {
 }
 
 @JsExport
-class OptionalType(val type: DataType) : DataType() {
-    override fun toString() = "$type?"
+class OptionalType(val someType: DataType) : DataType() {
+    override fun toString() = "$someType?"
 }
 
 @JsExport

@@ -32,7 +32,7 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
         is OptionalType -> {
             when (json) {
                 is JsonNull -> OptionalElement(type, null)
-                else -> OptionalElement(type, fromJson(json, type.type))
+                else -> OptionalElement(type, fromJson(json, type.someType))
             }
         }
         else -> UnresolvedElement(type)
