@@ -1,8 +1,8 @@
 package ru.itmo.json_forms.core.schema
 
-import ru.itmo.json_forms.core.Utils
 import ru.itmo.json_forms.core.ir.JMap
 import ru.itmo.json_forms.core.ir.toJMap
+import ru.itmo.json_forms.core.utils.Utils
 import kotlin.js.JsExport
 
 @JsExport
