@@ -1,8 +1,7 @@
 package ru.itmo.json_forms.core.ir
 
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import ru.itmo.json_forms.core.element.ObjectElement
+import ru.itmo.json_forms.core.document.ObjectElement
 import ru.itmo.json_forms.core.schema.ArrayType
 import ru.itmo.json_forms.core.schema.DataType
 import ru.itmo.json_forms.core.schema.ObjectType

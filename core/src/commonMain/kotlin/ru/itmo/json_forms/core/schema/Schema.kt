@@ -7,9 +7,11 @@ import ru.itmo.json_forms.core.ir.toJMap
 class Schema(rawSchema: JsonObject) {
     val root: DataType = parseDataType(rawSchema)
 
-    override fun toString(): String {
+    fun toPrettyString(): String {
         return visit(0, root)
     }
+
+    override fun toString() = "Schema: root = $root"
 }
 
 private fun parseDataType(obj: JsonObject): DataType {
