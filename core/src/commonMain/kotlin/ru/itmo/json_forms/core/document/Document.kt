@@ -24,8 +24,12 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
         }
         is ObjectType -> {
             val properties = json.jsonObject.map {
-                type.properties[it.key]?.let { type -> Pair(it.key, fromJson(it.value, type)) }
-            }.filterNotNull().toMap()
+                if (type.properties.containsKey(it.key)) {
+                    Pair(it.key, fromJson(it.value, type.properties[it.key]!!))
+                } else {
+                    Pair(it.key, UnresolvedElement(UnknownType(), it.value))
+                }
+            }.toMap()
             val obj = ObjectElement(type)
             obj.properties.putAll(properties)
             obj
