@@ -11,7 +11,7 @@ abstract class Element<out T: DataType>(val type: T) {
 }
 
 abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
-    protected var value = type.defaultValue
+    var value = type.defaultValue
     internal fun withValue(value: String?): BasicElement<T> {
         this.value = value
         return this
@@ -19,7 +19,7 @@ abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
     override fun toString() = super.toString() + ": " + "value = $value"
 }
 
-class UnresolvedElement(type: DataType, private val untouched: JsonElement) : Element<DataType>(type) {
+class UnresolvedElement(type: DataType, val untouched: JsonElement) : Element<DataType>(type) {
     override fun toJsonElement() = untouched
 }
 
@@ -43,20 +43,57 @@ class EnumElement(type: EnumType) : BasicElement<EnumType>(type) {
 }
 
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
-    val properties = mutableMapOf<String, Element<*>>()
+    private val properties = mutableMapOf<String, Element<*>>()
+
+    fun properties() = properties.toMap()
+
+    fun addProperty(name: String, property: Element<*>) {
+        val expectedType = type.properties[name] ?: throw AssertionError("no property with name '$name'")
+        if (expectedType != property.type) {
+            throw AssertionError("expected type $expectedType for property '$name' but got ${property.type}")
+        }
+        properties[name] = property
+    }
+
+    fun removeProperty(name: String) = properties.remove(name) // TODO: check if property is required?
+
     override fun toJsonElement(): JsonObject {
         return JsonObject(properties.entries.associate { Pair(it.key, it.value.toJsonElement()) })
     }
 }
 
-class ArrayElement(
-    type: ArrayType,
-    items: List<Element<*>>
-) : Element<ArrayType>(type) {
+class ArrayElement(type: ArrayType, items: List<Element<*>>) : Element<ArrayType>(type) {
     private val items: MutableList<Element<*>> = items.toMutableList()
+
+    fun items() = items.toList()
+
+    fun addItem(index: Int, item: Element<*>) {
+        if (type != item.type) {
+            throw AssertionError("expected type $type but got ${item.type}")
+        }
+        items.add(index, item)
+    }
+
+    fun removeItem(index: Int) {
+        items.removeAt(index)
+    }
+
     override fun toJsonElement() = JsonArray(items.map { it.toJsonElement() })
 }
 
-class OptionalElement(type: OptionalType, private var optional: Element<*>?) : Element<OptionalType>(type) {
-    override fun toJsonElement() = optional?.toJsonElement() ?: JsonNull
+class OptionalElement(type: OptionalType, private var value: Element<*>?) : Element<OptionalType>(type) {
+    fun get(): Element<*>? = value
+
+    fun some(value: Element<*>) {
+        if (type.someType != value.type) {
+            throw AssertionError("expected type ${type.someType} but got ${value.type}")
+        }
+        this.value = value
+    }
+
+    fun none() {
+        value = null
+    }
+
+    override fun toJsonElement() = value?.toJsonElement() ?: JsonNull
 }
