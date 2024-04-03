@@ -16,6 +16,8 @@ abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
     override fun toString() = super.toString() + ": " + "value = $value"
 }
 
+class UnresolvedElement(type: DataType) : Element<DataType>(type)
+
 class NullElement(type: NullType) : BasicElement<NullType>(type)
 class StringElement(type: StringType) : BasicElement<StringType>(type)
 class NumberElement(type: NumberType) : BasicElement<NumberType>(type)
@@ -33,6 +35,4 @@ class ArrayElement(
     private val items: MutableList<Element<DataType>> = items.toMutableList()
 }
 
-class OptionalElement(type: OptionalType) : Element<OptionalType>(type) {
-    private var optional: Element<DataType>? = null
-}
+class OptionalElement(type: OptionalType, private var optional: Element<DataType>?) : Element<OptionalType>(type)

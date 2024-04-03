@@ -1,9 +1,6 @@
 package ru.itmo.json_forms.core.document
 
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.*
 import ru.itmo.json_forms.core.schema.*
 
 class Document(schema: Schema, rawJson: JsonElement) {
@@ -32,7 +29,12 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
             obj.properties.putAll(properties)
             obj
         }
-        is OptionalType -> OptionalElement(type)
-        else -> throw IllegalArgumentException()
+        is OptionalType -> {
+            when (json) {
+                is JsonNull -> OptionalElement(type, null)
+                else -> OptionalElement(type, fromJson(json, type.type))
+            }
+        }
+        else -> UnresolvedElement(type)
     } as Element<T> // it is required somehow
 }
