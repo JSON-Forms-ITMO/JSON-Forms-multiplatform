@@ -20,7 +20,7 @@ intellij {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(project(":core"))
 }
 
 tasks.test {
