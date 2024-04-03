@@ -11,12 +11,11 @@ abstract class Element<out T: DataType>(val type: T) {
 }
 
 abstract class BasicElement<out T: BasicType>(type: T) : Element<T>(type) {
-    private var value = type.defaultValue
+    protected var value = type.defaultValue
     fun withValue(value: String?): BasicElement<T> {
         this.value = value
         return this
     }
-    override fun toJsonElement() = JsonPrimitive(value)
     override fun toString() = super.toString() + ": " + "value = $value"
 }
 
@@ -24,12 +23,24 @@ class UnresolvedElement(type: DataType, private val untouched: JsonElement) : El
     override fun toJsonElement() = untouched
 }
 
-class NullElement(type: NullType) : BasicElement<NullType>(type)
-class StringElement(type: StringType) : BasicElement<StringType>(type)
-class NumberElement(type: NumberType) : BasicElement<NumberType>(type)
-class IntegerElement(type: IntegerType) : BasicElement<IntegerType>(type)
-class BooleanElement(type: BooleanType) : BasicElement<BooleanType>(type)
-class EnumElement(type: EnumType) : BasicElement<EnumType>(type)
+class NullElement(type: NullType) : BasicElement<NullType>(type) {
+    override fun toJsonElement() = JsonNull
+}
+class StringElement(type: StringType) : BasicElement<StringType>(type) {
+    override fun toJsonElement() = JsonPrimitive(value)
+}
+class NumberElement(type: NumberType) : BasicElement<NumberType>(type) {
+    override fun toJsonElement() = JsonPrimitive(value)
+}
+class IntegerElement(type: IntegerType) : BasicElement<IntegerType>(type) {
+    override fun toJsonElement() = JsonPrimitive(value)
+}
+class BooleanElement(type: BooleanType) : BasicElement<BooleanType>(type) {
+    override fun toJsonElement() = JsonPrimitive(value.toBoolean())
+}
+class EnumElement(type: EnumType) : BasicElement<EnumType>(type) {
+    override fun toJsonElement() = JsonPrimitive(value) // TODO: store actual type somewhere
+}
 
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
     val properties = mutableMapOf<String, Element<*>>()
