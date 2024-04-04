@@ -144,7 +144,7 @@ class JsonEditorComponent(
 
                 group(title, false) {
                     for ((propName, property) in element.getProperties()) {
-                        row(propName) {
+                        row(property.type.title ?: propName) {
                             panel {
                                 row {
                                     val button = HyperlinkLabel("remove property").apply {
