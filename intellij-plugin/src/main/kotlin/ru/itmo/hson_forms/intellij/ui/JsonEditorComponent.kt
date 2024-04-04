@@ -1,21 +1,32 @@
 package ru.itmo.hson_forms.intellij.ui
 
+import com.intellij.icons.AllIcons
+import com.intellij.ide.actions.SmartPopupActionGroup
+import com.intellij.notification.impl.NotificationsManagerImpl.DropDownAction
+import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.observable.properties.AtomicBooleanProperty
 import com.intellij.openapi.observable.properties.AtomicProperty
 import com.intellij.openapi.observable.util.bind
+import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.ui.popup.JBPopupFactory
+import com.intellij.openapi.ui.popup.JBPopupListener
 import com.intellij.psi.PsiFile
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
-import com.intellij.ui.dsl.builder.*
+import com.intellij.ui.dsl.builder.AlignX
+import com.intellij.ui.dsl.builder.Panel
+import com.intellij.ui.dsl.builder.panel
 import com.intellij.util.ui.JBUI
 import ru.itmo.json_forms.core.document.*
 import java.awt.BorderLayout
 import java.util.concurrent.atomic.AtomicBoolean
+import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -84,7 +95,7 @@ class JsonEditorComponent(
 
     @Suppress("UnstableApiUsage")
     inner class UiBuilder(
-        private val onJsonChangeRequested: () -> Unit
+        private val onJsonChangeRequested: () -> Unit,
     ) : DocumentVisitor<JComponent> {
         override fun visitNull(element: NullElement): JComponent {
             return JBLabel("<null-element> ${element.value}")
@@ -130,6 +141,29 @@ class JsonEditorComponent(
                         resizableColumn()
                     }
 
+                    val existingProperties = element.getProperties().map { it.key }.toString()
+                    val missingProperties = element.type.properties.filter { it.key !in existingProperties }
+
+                    if (missingProperties.isNotEmpty()) {
+                        row {
+                            val button = JButton(AllIcons.Actions.AddList)
+                            cell(button)
+                            button.addActionListener {
+                                val popupFactory = JBPopupFactory.getInstance()
+                                val popup = popupFactory
+                                    .createPopupChooserBuilder(missingProperties.map { it.key })
+                                    .setItemChosenCallback { name ->
+                                        element.addProperty(name, missingProperties[name]!!)
+                                        onJsonChangeRequested()
+                                        updateUi()
+                                    }
+                                    .createPopup()
+
+                                popup.showUnderneathOf(button)
+                            }
+                        }
+                    }
+
                     align(AlignX.FILL)
                     resizableColumn()
                 }.resizableRow()
@@ -158,7 +192,7 @@ class JsonEditorComponent(
 
         private fun Panel.removableCell(
             item: Element<*>,
-            parent: ArrayElement
+            parent: ArrayElement,
         ) {
             row {
                 this.cell(visit(item)).align(AlignX.FILL)
