@@ -7,12 +7,12 @@ import kotlin.js.JsExport
 
 @JsExport
 object JsonTreeBuilder {
-    fun build(json: String, schema: String): Document {
+    fun build(json: String, schema: String, prettyPrintJson: Boolean = true): Document {
         val schemaJsonObj = Json.decodeFromString<JsonObject>(schema)
         val schemaObj = Schema(schemaJsonObj)
 
         val jsonElement = Json.decodeFromString<JsonObject>(json)
 
-        return Document(schemaObj, jsonElement)
+        return Document(schemaObj, jsonElement, prettyPrintJson)
     }
 }

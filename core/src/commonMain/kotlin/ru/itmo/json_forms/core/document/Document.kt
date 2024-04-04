@@ -6,11 +6,15 @@ import ru.itmo.json_forms.core.schema.*
 import kotlin.js.JsExport
 
 @JsExport
-class Document @JsExport.Ignore constructor(schema: Schema, jsonElement: JsonElement) {
+class Document @JsExport.Ignore constructor(
+    schema: Schema,
+    jsonElement: JsonElement,
+    prettyPrintJson: Boolean = true
+) {
     val root = fromJson(jsonElement, schema.root)
-    private val json = Json { prettyPrint = true }
+    private val json = Json { prettyPrint = prettyPrintJson }
 
-    fun getJson(prettyPrint: Boolean = true) = json.encodeToString(root.toJsonElement())
+    fun getJson() = json.encodeToString(root.toJsonElement())
 
     override fun toString() = "Document: root = $root"
 }
