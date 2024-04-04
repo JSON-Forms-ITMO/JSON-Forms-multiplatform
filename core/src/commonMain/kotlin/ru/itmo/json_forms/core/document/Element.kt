@@ -114,7 +114,7 @@ class OptionalElement(type: OptionalType, private var value: Element<*>?) : Elem
     fun get(): Element<*>? = value
 
     fun put(): Element<*> {
-        this.value = type.getDefaultElement()
+        this.value = type.someType.getDefaultElement()
 
         return this.value!!
     }
