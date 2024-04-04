@@ -12,6 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.impl.http.HttpVirtualFile
 import com.intellij.psi.PsiManager
+import com.intellij.ui.components.JBScrollPane
 import com.jetbrains.jsonSchema.ide.JsonSchemaService
 import ru.itmo.hson_forms.intellij.ui.JsonEditorComponent
 import java.io.BufferedInputStream
@@ -55,6 +56,7 @@ class JsonEditorProvider : FileEditorProvider, DumbAware {
         val jsonSchemaContent = getJsonSchemaText(file, project)
 
         val jsonEditorPanel = JsonEditorComponent(psiFile!!, jsonSchemaContent)
+        val scrollPanel = JBScrollPane(jsonEditorPanel)
 
         val jsonModificationListener = object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
@@ -64,7 +66,7 @@ class JsonEditorProvider : FileEditorProvider, DumbAware {
 
         jsonDocument.addDocumentListener(jsonModificationListener)
 
-        return TextEditorWithPreview(jsonTextEditor, JComponentFileEditor(file, jsonEditorPanel))
+        return TextEditorWithPreview(jsonTextEditor, JComponentFileEditor(file, scrollPanel))
     }
 
     private fun getJsonSchemaText(file: VirtualFile, project: Project): String {
