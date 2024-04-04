@@ -24,6 +24,8 @@ A multiplatform library that allows:
 
 ## IntelliJ Idea Plugin
 
+![intellij.png](media%2Fintellij.png)
+
 You can run IntelliJ Idea with the plugin that way:
 ```shell
 ./gradlew :intellij-plugin:runIde
