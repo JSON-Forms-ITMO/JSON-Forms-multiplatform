@@ -52,3 +52,26 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
         else -> UnresolvedElement(type, json)
     } as Element<T> // it is required somehow
 }
+
+internal fun DataType.getDefaultElement(): Element<*> {
+    return when (this) {
+        is NullType -> NullElement(this)
+        is StringType -> StringElement(this).withValue(this.defaultValue)
+        is NumberType -> NumberElement(this).withValue(this.defaultValue)
+        is IntegerType -> IntegerElement(this).withValue(this.defaultValue)
+        is BooleanType -> BooleanElement(this).withValue(this.defaultValue)
+        is EnumType -> EnumElement(this).withValue(this.defaultValue)
+        is ArrayType -> {
+            ArrayElement(this, arrayOf())
+        }
+        is ObjectType -> {
+            val properties = this.properties.map { (k, v) -> k to v.getDefaultElement() }
+            val obj = ObjectElement(this)
+            obj.myProperties.putAll(properties)
+
+            obj
+        }
+        is OptionalType -> OptionalElement(this, null)
+        else -> UnresolvedElement(this, JsonNull)
+    }
+}

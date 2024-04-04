@@ -4,7 +4,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import ru.itmo.json_forms.core.document.Document
-import ru.itmo.json_forms.core.ir.IrBuilder
 import ru.itmo.json_forms.core.schema.*
 
 fun main() {
@@ -24,7 +23,4 @@ fun main() {
         prettyPrint = true
     }
     println(prettyJson.encodeToString(document.getJson()))
-
-    val irBuilder = IrBuilder(schema)
-    irBuilder.build("{}")
 }

@@ -8,20 +8,14 @@ import com.intellij.openapi.observable.properties.AtomicProperty
 import com.intellij.openapi.observable.util.bind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.psi.PsiFile
-import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTextField
-import com.intellij.ui.dsl.builder.AlignX
-import com.intellij.ui.dsl.builder.RowLayout
-import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.*
 import com.intellij.util.ui.JBUI
-import com.jetbrains.rd.util.remove
 import ru.itmo.json_forms.core.document.*
 import java.awt.BorderLayout
 import java.util.concurrent.atomic.AtomicBoolean
-import javax.swing.BorderFactory
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -35,6 +29,10 @@ class JsonEditorComponent(
     init {
         updateUi(file.text)
         border = JBUI.Borders.empty(15)
+    }
+
+    private fun updateUi() {
+        updateUi(file.text)
     }
 
     fun updateUi(json: String) {
@@ -52,7 +50,8 @@ class JsonEditorComponent(
             }
 
             UiBuilder(onJsonUiChanged).visitDocument(jsonTree)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.error(e)
             return
         }
 
@@ -84,7 +83,7 @@ class JsonEditorComponent(
     }
 
     @Suppress("UnstableApiUsage")
-    class UiBuilder(
+    inner class UiBuilder(
         private val onJsonChangeRequested: () -> Unit
     ) : DocumentVisitor<JComponent> {
         override fun visitNull(element: NullElement): JComponent {
@@ -144,14 +143,28 @@ class JsonEditorComponent(
         override fun visitArray(element: ArrayElement): JComponent = panel {
             group {
                 row {
-                    button("+") { }
+                    button("+") {
+                        element.addItem()
+                        onJsonChangeRequested()
+                        updateUi()
+                    }
                 }
 
                 for (item in element.items()) {
-                    row {
-                        this.cell(visit(item)).align(AlignX.FILL)
-                        button("-") { element.items().remove(item) }
-                    }
+                    removableCell(item, element)
+                }
+            }
+        }
+
+        private fun Panel.removableCell(
+            item: Element<*>,
+            parent: ArrayElement
+        ) {
+            row {
+                this.cell(visit(item)).align(AlignX.FILL)
+                button("-") {
+                    parent.removeItem(item)
+                    this@row.visible(false)
                 }
             }
         }
