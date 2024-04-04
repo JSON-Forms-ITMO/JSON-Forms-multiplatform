@@ -1,7 +1,9 @@
 package ru.itmo.hson_forms.intellij.ui
 
+import com.intellij.codeInsight.daemon.impl.createActionLabel
 import com.intellij.icons.AllIcons
 import com.intellij.ide.actions.SmartPopupActionGroup
+import com.intellij.ide.plugins.newui.ListPluginComponent.ButtonAnAction
 import com.intellij.notification.impl.NotificationsManagerImpl.DropDownAction
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -16,11 +18,13 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.ui.popup.JBPopupListener
 import com.intellij.psi.PsiFile
+import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.Panel
+import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.util.ui.JBUI
 import ru.itmo.json_forms.core.document.*
@@ -62,7 +66,7 @@ class JsonEditorComponent(
 
             UiBuilder(onJsonUiChanged).visitDocument(jsonTree)
         } catch (e: Exception) {
-            logger.error(e)
+            logger.info(e)
             return
         }
 
@@ -176,16 +180,20 @@ class JsonEditorComponent(
         // TODO: Write or find an editable a-like combobox element
         override fun visitArray(element: ArrayElement): JComponent = panel {
             group {
-                row {
-                    button("+") {
-                        element.addItem()
-                        onJsonChangeRequested()
-                        updateUi()
-                    }
-                }
-
                 for (item in element.items()) {
                     removableCell(item, element)
+                }
+
+                row {
+                    val button = HyperlinkLabel("add...").apply {
+                        this.addHyperlinkListener {
+                            element.addItem()
+                            onJsonChangeRequested()
+                            updateUi()
+                        }
+                    }
+
+                    cell(button)
                 }
             }
         }
@@ -195,17 +203,31 @@ class JsonEditorComponent(
             parent: ArrayElement,
         ) {
             row {
-                this.cell(visit(item)).align(AlignX.FILL)
-                button("-") {
+                this.cell(visit(item)).align(AlignX.FILL).gap(RightGap.SMALL)
+
+                val button = ButtonAnAction.create(AllIcons.Actions.Cancel) {
                     parent.removeItem(item)
+                    onJsonChangeRequested()
                     this@row.visible(false)
                 }
+
+                actionButton(button)
             }
         }
 
         override fun visitOptional(element: OptionalElement): JComponent {
-            val trueElement = element.get() ?: return JBLabel("<optional-element> ${element.get()}")
-            return visit(trueElement)
+            val trueElement = element.get()
+            if (trueElement != null) {
+                return visit(trueElement)
+            }
+
+            return HyperlinkLabel("add...").apply {
+                this.addHyperlinkListener {
+                    element.put()
+                    onJsonChangeRequested()
+                    updateUi()
+                }
+            }
         }
 
         override fun visitUnresolved(element: UnresolvedElement): JComponent {
