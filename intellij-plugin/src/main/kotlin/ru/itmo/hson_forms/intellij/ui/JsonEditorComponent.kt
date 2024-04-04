@@ -8,26 +8,33 @@ import com.intellij.openapi.observable.properties.AtomicProperty
 import com.intellij.openapi.observable.util.bind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.psi.PsiFile
+import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.AlignX
+import com.intellij.ui.dsl.builder.RowLayout
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.util.ui.JBUI
 import com.jetbrains.rd.util.remove
 import ru.itmo.json_forms.core.document.*
+import java.awt.BorderLayout
 import java.util.concurrent.atomic.AtomicBoolean
+import javax.swing.BorderFactory
 import javax.swing.JComponent
 import javax.swing.JPanel
 
 class JsonEditorComponent(
     private val file: PsiFile,
     private val schema: String,
-) : JPanel() {
+) : JPanel(BorderLayout()) {
     private val logger = thisLogger()
     private val updateLock = AtomicBoolean(false)
 
     init {
         updateUi(file.text)
+        border = JBUI.Borders.empty(15)
     }
 
     fun updateUi(json: String) {
@@ -50,7 +57,7 @@ class JsonEditorComponent(
         }
 
         removeAll()
-        add(component)
+        add(component, BorderLayout.NORTH)
     }
 
     private fun updateFile(newContent: String) {
@@ -117,9 +124,19 @@ class JsonEditorComponent(
                             this.cell(visit(property))
                                 .comment(property.type.description)
                                 .align(AlignX.FILL)
+                            resizableRow()
                         }
+
+                        align(AlignX.FILL)
+                        resizableColumn()
                     }
-                }
+
+                    align(AlignX.FILL)
+                    resizableColumn()
+                }.resizableRow()
+
+                align(AlignX.FILL)
+                resizableColumn()
             }
         }
 
@@ -132,7 +149,7 @@ class JsonEditorComponent(
 
                 for (item in element.items()) {
                     row {
-                        this.cell(visit(item))
+                        this.cell(visit(item)).align(AlignX.FILL)
                         button("-") { element.items().remove(item) }
                     }
                 }
