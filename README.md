@@ -24,7 +24,7 @@ A multiplatform library that allows:
 
 ## IntelliJ Idea Plugin
 
-![intellij.png](media%2Fintellij.png)
+![intellij.png](media/intellij.png)
 
 You can run IntelliJ Idea with the plugin that way:
 ```shell
@@ -38,5 +38,7 @@ Also, you can build it:
 ```
 
 ## VS Code Plugin
+
+![img.png](media/vscode.png)
 
 You can open in VS Code and do all needed stuff 
