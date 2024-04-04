@@ -1,11 +1,40 @@
-This is a Kotlin Multiplatform project targeting Desktop.
+## JSON Schema Fusion
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+A multiplatform library that allows:
+1. Parse JSON Schema specification
+2. Annotate JSON file with information from the specification
+3. Use it to draw beautiful user interfaces which are user-friendly!
 
+## Architecture
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+![img.png](media/img.png)
+
+## How to use it
+
+1. Build library:
+    * JVM: `./gradlew jvmJar`
+    * NPM: `./gradlew jsNodeProductionLibraryDistribution`
+2. Include it to the project
+3. Implement [DocumentVisitor.kt](core/src/commonMain/kotlin/ru/itmo/json_forms/core/document/DocumentVisitor.kt). This
+   visitor calls with JSON descriptor nodes. You shall use them to implement UI on the target platform. See 
+   [IntelliJ Plugin example](intellij-plugin/src/main/kotlin/ru/itmo/hson_forms/intellij/ui/JsonEditorComponent.kt) in 
+   kotlin or [VS Code Extension example in Type Script](vscode-plugin).
+4. Get the `Document` with `JsonTreeBuilder.build(<json>, <schema>)` call. You can also pass
+   `prettyPrintJson = false` to disable pretty-printing
+
+## IntelliJ Idea Plugin
+
+You can run IntelliJ Idea with the plugin that way:
+```shell
+./gradlew :intellij-plugin:runIde
+```
+
+Also, you can build it:
+
+```shell
+./gradlew :intellij-plugin:buildPlugin
+```
+
+## VS Code Plugin
+
+You can open in VS Code and do all needed stuff 
