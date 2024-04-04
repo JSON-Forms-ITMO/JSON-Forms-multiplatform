@@ -191,9 +191,6 @@ class JsonEditorComponent(
         private fun AtomicProperty<String>.asBoolProperty(): AtomicBooleanProperty {
             val trueConst = "true"
             val property = AtomicBooleanProperty(this.get() == trueConst)
-            this.afterChange { value ->
-                property.set(value == trueConst)
-            }
 
             property.afterChange { value ->
                 this.set(value.toString())
