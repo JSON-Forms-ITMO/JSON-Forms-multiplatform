@@ -11,6 +11,7 @@ import com.intellij.openapi.observable.util.bind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiManager
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
@@ -40,6 +41,13 @@ class JsonEditorComponent(
     }
 
     private fun updateUi() {
+        val application = ApplicationManager.getApplication()
+        application.invokeAndWait {
+            application.runWriteAction {
+                PsiManager.getInstance(file.project).reloadFromDisk(file)
+            }
+        }
+
         updateUi(file.text)
     }
 
@@ -65,6 +73,8 @@ class JsonEditorComponent(
 
         removeAll()
         add(component, BorderLayout.NORTH)
+        revalidate()
+        repaint()
     }
 
     private fun updateFile(newContent: String) {
@@ -118,19 +128,41 @@ class JsonEditorComponent(
             val property = element.getProperty()
             val values = element.type.values.toList()
 
-            return ComboBox(EnumModel(values, property))
+            val comboBox = ComboBox(EnumModel(values, property))
+            if (element.value != null && element.value != "null") {
+                comboBox.selectedItem = element.value
+            } else {
+                comboBox.selectedIndex = -1
+            }
+
+            return comboBox
         }
 
         override fun visitObject(element: ObjectElement): JComponent {
             return panel {
-                val title = element.type.title
+                val title = if (element.type.title != "aiproj") element.type.title else null
 
                 group(title, false) {
-                    for ((lbl, property) in element.getProperties()) {
-                        row(lbl) {
-                            this.cell(visit(property))
-                                .comment(property.type.description)
-                                .align(AlignX.FILL)
+                    for ((propName, property) in element.getProperties()) {
+                        row(propName) {
+                            panel {
+                                row {
+                                    val button = HyperlinkLabel("remove property").apply {
+                                        this.addHyperlinkListener {
+                                            element.removeProperty(propName)
+                                            onJsonChangeRequested()
+                                            updateUi()
+                                        }
+                                    }
+
+                                    cell(button).visible(propName !in element.type.required)
+                                }
+                                row {
+                                    this.cell(visit(property))
+                                        .comment(property.type.description)
+                                        .align(AlignX.FILL)
+                                }
+                            }.separator()
                             resizableRow()
                         }
 
@@ -139,7 +171,9 @@ class JsonEditorComponent(
                     }
 
                     val existingProperties = element.getProperties().map { it.key }.toString()
-                    val missingProperties = element.type.properties.filter { it.key !in existingProperties }
+                    val missingProperties = element.type.properties
+                        .filterKeys { it !in existingProperties }
+                        .filterKeys { !it.startsWith("$") }
 
                     if (missingProperties.isNotEmpty()) {
                         row {
@@ -214,7 +248,7 @@ class JsonEditorComponent(
                 return visit(trueElement)
             }
 
-            return HyperlinkLabel("add...").apply {
+            return HyperlinkLabel("initialize value").apply {
                 this.addHyperlinkListener {
                     element.put()
                     onJsonChangeRequested()

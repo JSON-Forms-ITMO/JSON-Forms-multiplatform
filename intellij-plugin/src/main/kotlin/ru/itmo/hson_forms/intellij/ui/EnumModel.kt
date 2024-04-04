@@ -11,8 +11,8 @@ class EnumModel(
         return property.get()
     }
 
-    override fun setSelectedItem(item: Any) {
+    override fun setSelectedItem(item: Any?) {
         super.setSelectedItem(item)
-        property.set(item as String)
+        property.set(item as String? ?: "")
     }
 }
