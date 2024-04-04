@@ -69,12 +69,11 @@ class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
 
     fun getProperties() = myProperties.toJMap()
 
-    fun addProperty(name: String, property: Element<*>) {
-        val expectedType = type.properties[name] ?: throw AssertionError("no property with name '$name'")
-        if (expectedType != property.type) {
-            throw AssertionError("expected type $expectedType for property '$name' but got ${property.type}")
-        }
+    fun addProperty(name: String, type: DataType): Element<*> {
+        val property = type.getDefaultElement()
         myProperties[name] = property
+
+        return property
     }
 
     fun removeProperty(name: String) = myProperties.remove(name) // TODO: check if property is required?
@@ -90,15 +89,21 @@ class ArrayElement(type: ArrayType, items: Array<Element<*>>) : Element<ArrayTyp
 
     fun items() = items.toTypedArray()
 
-    fun addItem(index: Int, item: Element<*>) {
-        if (type != item.type) {
-            throw AssertionError("expected type $type but got ${item.type}")
-        }
+    fun addItem(index: Int = items.size): Element<*> {
+        val itemType = type.items
+        val item = itemType.getDefaultElement()
+
         items.add(index, item)
+
+        return item
     }
 
-    fun removeItem(index: Int) {
+    fun removeItemAtIndex(index: Int) {
         items.removeAt(index)
+    }
+
+    fun removeItem(element: Element<*>) {
+        items.remove(element)
     }
 
     override fun toJsonElement() = JsonArray(items.map { it.toJsonElement() })
@@ -108,11 +113,10 @@ class ArrayElement(type: ArrayType, items: Array<Element<*>>) : Element<ArrayTyp
 class OptionalElement(type: OptionalType, private var value: Element<*>?) : Element<OptionalType>(type) {
     fun get(): Element<*>? = value
 
-    fun some(value: Element<*>) {
-        if (type.someType != value.type) {
-            throw AssertionError("expected type ${type.someType} but got ${value.type}")
-        }
-        this.value = value
+    fun put(): Element<*> {
+        this.value = type.getDefaultElement()
+
+        return this.value!!
     }
 
     fun none() {

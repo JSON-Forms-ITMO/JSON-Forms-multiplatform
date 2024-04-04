@@ -166,7 +166,7 @@ class HtmlAdapter : AbstractAdapter() {
                     "        const newBlock = '<div class=\"property\">${getView(type.items)}<button onclick=\"this.parentNode.remove()\">Delete</button></div>';" +
                     "        document.getElementById('$fieldId-elements').insertAdjacentHTML('beforeend', newBlock);" +
                     "    }"
-            scripts.append(" $addScript")
+            scripts.append(addScript)
             return getHtmlElement(fieldId, content.toString(), isOptional, false)
         }
         val funName = "add${fieldId}"

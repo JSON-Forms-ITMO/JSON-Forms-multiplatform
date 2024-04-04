@@ -1,6 +1,5 @@
 package ru.itmo.hson_forms.intellij
 
-import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.EditorKind
 import com.intellij.openapi.editor.event.DocumentEvent
@@ -14,6 +13,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.impl.http.HttpVirtualFile
 import com.intellij.psi.PsiManager
 import com.jetbrains.jsonSchema.ide.JsonSchemaService
+import ru.itmo.hson_forms.intellij.ui.JsonEditorComponent
 import java.io.BufferedInputStream
 import java.net.URL
 
@@ -58,7 +58,7 @@ class JsonEditorProvider : FileEditorProvider, DumbAware {
 
         val jsonModificationListener = object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
-                jsonEditorPanel.updateUi()
+                jsonEditorPanel.updateUi(event.document.text)
             }
         }
 

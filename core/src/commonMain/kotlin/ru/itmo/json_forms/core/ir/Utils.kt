@@ -3,7 +3,17 @@ package ru.itmo.json_forms.core.ir
 import kotlin.js.JsExport
 
 @JsExport
-data class JMapEntry<K, V>(override val key: K, override val value: V) : Map.Entry<K, V>
+data class JMapEntry<K, V>(override val key: K, override val value: V) : Map.Entry<K, V> {
+
+    // Getters for js lib
+    fun getKey(): K {
+        return key
+    }
+    fun getValue(): V {
+        return value
+    }
+
+}
 
 
 @JsExport
