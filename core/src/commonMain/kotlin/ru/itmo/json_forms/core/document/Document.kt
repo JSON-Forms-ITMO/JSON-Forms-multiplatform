@@ -8,8 +8,9 @@ import kotlin.js.JsExport
 @JsExport
 class Document @JsExport.Ignore constructor(schema: Schema, jsonElement: JsonElement) {
     val root = fromJson(jsonElement, schema.root)
+    private val json = Json { prettyPrint = true }
 
-    fun getJson() = Json.encodeToString(root.toJsonElement())
+    fun getJson(prettyPrint: Boolean = true) = json.encodeToString(root.toJsonElement())
 
     override fun toString() = "Document: root = $root"
 }
