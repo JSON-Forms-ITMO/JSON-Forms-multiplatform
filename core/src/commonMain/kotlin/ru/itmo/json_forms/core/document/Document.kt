@@ -56,10 +56,10 @@ private fun <T: DataType> fromJson(json: JsonElement, type: T): Element<T> {
 internal fun DataType.getDefaultElement(): Element<*> {
     return when (this) {
         is NullType -> NullElement(this)
-        is StringType -> StringElement(this).withValue(this.defaultValue)
-        is NumberType -> NumberElement(this).withValue(this.defaultValue)
-        is IntegerType -> IntegerElement(this).withValue(this.defaultValue)
-        is BooleanType -> BooleanElement(this).withValue(this.defaultValue)
+        is StringType -> StringElement(this).withValue("")
+        is NumberType -> NumberElement(this).withValue("0")
+        is IntegerType -> IntegerElement(this).withValue("0")
+        is BooleanType -> BooleanElement(this).withValue("false")
         is EnumType -> EnumElement(this).withValue(this.defaultValue)
         is ArrayType -> {
             ArrayElement(this, arrayOf())

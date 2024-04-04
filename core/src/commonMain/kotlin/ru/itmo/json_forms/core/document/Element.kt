@@ -3,7 +3,6 @@ package ru.itmo.json_forms.core.document
 import kotlinx.serialization.json.*
 import ru.itmo.json_forms.core.ir.toJMap
 import ru.itmo.json_forms.core.schema.*
-import ru.itmo.json_forms.core.schema.ObjectType
 import kotlin.js.JsExport
 
 @JsExport
@@ -67,7 +66,7 @@ class EnumElement(type: EnumType) : BasicElement<EnumType>(type) {
 class ObjectElement(type: ObjectType) : Element<ObjectType>(type) {
     internal val myProperties = mutableMapOf<String, Element<*>>()
 
-    fun getProperties() = myProperties.toJMap()
+    fun getProperties() = myProperties.filterKeys { !it.startsWith("$") }.toJMap()
 
     fun addProperty(name: String, type: DataType): Element<*> {
         val property = type.getDefaultElement()
