@@ -1,8 +1,6 @@
 package ru.itmo.hson_forms.intellij.ui
 
-import com.intellij.openapi.application.Application
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.observable.properties.AtomicBooleanProperty
@@ -10,7 +8,6 @@ import com.intellij.openapi.observable.properties.AtomicProperty
 import com.intellij.openapi.observable.util.bind
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiManager
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
@@ -18,6 +15,7 @@ import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.panel
 import com.jetbrains.rd.util.remove
 import ru.itmo.json_forms.core.document.*
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
 import javax.swing.JPanel
 
@@ -26,16 +24,22 @@ class JsonEditorComponent(
     private val schema: String,
 ) : JPanel() {
     private val logger = thisLogger()
+    private val updateLock = AtomicBoolean(false)
 
     init {
-        updateUi()
+        updateUi(file.text)
     }
 
-    fun updateUi() {
+    fun updateUi(json: String) {
+        if (updateLock.getAndSet(false)) {
+            // UI triggered this update, skip
+            return
+        }
+
         val component = try {
-            val json = file.text
             val jsonTree = JsonTreeBuilder.build(json, schema)
             val onJsonUiChanged = fun() {
+                updateLock.set(true)
                 val newJson = jsonTree.getJson()
                 updateFile(newJson)
             }
@@ -50,6 +54,10 @@ class JsonEditorComponent(
     }
 
     private fun updateFile(newContent: String) {
+        if (!file.virtualFile.isWritable) {
+            return // todo: disable UI editing when file is read only
+        }
+
         val application = ApplicationManager.getApplication()
         application.invokeLater {
             val fileDocumentManager = FileDocumentManager.getInstance()
@@ -62,9 +70,7 @@ class JsonEditorComponent(
 
             application.runWriteAction {
                 jsonDocument.setText(newContent)
-
-                val psiManager = PsiManager.getInstance(file.project)
-                psiManager.reloadFromDisk(file)
+                fileDocumentManager.saveDocument(jsonDocument)
             }
         }
 
@@ -158,6 +164,7 @@ class JsonEditorComponent(
             this.afterChange { value ->
                 property.set(value == trueConst)
             }
+
             property.afterChange { value ->
                 this.set(value.toString())
                 onJsonChangeRequested()

@@ -58,7 +58,7 @@ class JsonEditorProvider : FileEditorProvider, DumbAware {
 
         val jsonModificationListener = object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
-                jsonEditorPanel.updateUi()
+                jsonEditorPanel.updateUi(event.document.text)
             }
         }
 
